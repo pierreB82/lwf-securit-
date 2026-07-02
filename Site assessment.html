@@ -3,22 +3,25 @@
   ================================================================
   Outil d'évaluation préliminaire des locaux
   Conçu par Pierre Beaurenaut pour la Fédération Luthérienne Mondiale (FLM / LWF)
-  Version 1.0 — Juin 2026
+  Version 1.4 (Juillet 2026)
   Basé sur le TOOL_BUIL_Building evaluation check-list V1.1
+  v1.4 : type de bâtiment en sélection multiple (sites à usages combinés) +
+         module conditionnel "Aléas naturels spécifiques" (Séisme, 12 questions,
+         extensible à Cyclone/Volcan/Inondation majeure)
   ================================================================
 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="author" content="Pierre Beaurenaut — Fédération Luthérienne Mondiale (FLM/LWF)">
-<meta name="description" content="Outil d'évaluation préliminaire des locaux — LWF World Service">
-<title>Site Assessment — LWF</title>
+<meta name="author" content="Pierre Beaurenaut, Fédération Luthérienne Mondiale (FLM/LWF)">
+<meta name="description" content="Outil d'évaluation préliminaire des locaux, LWF World Service">
+<title>Site Assessment - LWF</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ================================================================
-   VARIABLES & RESET — identiques Risk Assessment
+   VARIABLES & RESET : identiques Risk Assessment
    ================================================================ */
 :root {
   --bg:          #ffffff;
@@ -67,7 +70,7 @@ body {
 }
 
 /* ================================================================
-   TOPBAR — fidèle Risk Assessment, adapté mobile
+   TOPBAR : fidèle Risk Assessment, adapté mobile
    ================================================================ */
 .topbar {
   position: sticky; top: 0; z-index: 100;
@@ -169,7 +172,7 @@ body {
 .btn-export:hover { background: rgba(255,255,255,0.25); }
 
 /* ================================================================
-   NOTICE MODALE — identique Risk Assessment
+   NOTICE MODALE : identique Risk Assessment
    ================================================================ */
 .notice-overlay {
   position: fixed; inset: 0; z-index: 500;
@@ -256,7 +259,7 @@ body {
 .btn-secondary:hover { background: var(--bg3); }
 
 /* ================================================================
-   EXPORT MODALE — identique Risk Assessment
+   EXPORT MODALE : identique Risk Assessment
    ================================================================ */
 .export-overlay {
   position: fixed; inset: 0; z-index: 400;
@@ -296,7 +299,7 @@ body {
 }
 
 /* ================================================================
-   BOTTOM TABS — navigation mobile
+   BOTTOM TABS : navigation mobile
    ================================================================ */
 .bottom-tabs {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
@@ -327,7 +330,7 @@ body {
 .page.active { display: block; }
 
 /* ================================================================
-   FORM — identique Risk Assessment
+   FORM : identique Risk Assessment
    ================================================================ */
 .form-row { display: grid; gap: 10px; margin-bottom: 12px; }
 .form-row.cols-2 { grid-template-columns: 1fr 1fr; }
@@ -368,7 +371,7 @@ body {
 .btn-gps:active { background: var(--accent2); }
 
 /* ================================================================
-   SECTION CARD — identique Risk Assessment
+   SECTION CARD : identique Risk Assessment
    ================================================================ */
 .section-card {
   background: var(--bg);
@@ -503,7 +506,7 @@ body {
 .pstat-pt  { background: var(--partial-bg); color: var(--partial); }
 
 /* ================================================================
-   ACTION PLAN — fidèle Risk Assessment
+   ACTION PLAN : fidèle Risk Assessment
    ================================================================ */
 .ap-table { width: 100%; border-collapse: collapse; font-size: 12px; }
 .ap-table th {
@@ -562,7 +565,7 @@ body {
 .ap-card-num { font-size: 10px; color: var(--text3); }
 
 /* ================================================================
-   EMERGENCY BAR — identique Risk Assessment
+   EMERGENCY BAR : identique Risk Assessment
    ================================================================ */
 .emergency-bar {
   display: none; position: fixed; bottom: 72px; left: 0; right: 0; z-index: 600;
@@ -738,7 +741,7 @@ input[type=file].hidden-input { display: none; }
       <div class="notice-reminders">
         <div class="notice-reminders-title" data-i18n="notice_tips_title">Tips</div>
         <div class="notice-reminder-item" data-i18n="notice_tip1">Use this tool on-site, moving through each area of the site.</div>
-        <div class="notice-reminder-item" data-i18n="notice_tip2">Take photos when prompted — they are not mandatory but highly recommended.</div>
+        <div class="notice-reminder-item" data-i18n="notice_tip2">Take photos when prompted. They are not mandatory but highly recommended.</div>
         <div class="notice-reminder-item" data-i18n="notice_tip3">Items marked NO or PARTIAL will automatically appear in the Action Plan tab.</div>
         <div class="notice-reminder-item" data-i18n="notice_tip4">Export your evaluation as JSON to save it in the Security Pack on SharePoint.</div>
       </div>
@@ -782,7 +785,7 @@ input[type=file].hidden-input { display: none; }
   <div class="export-box">
     <div class="export-header" data-i18n="export_header">Export / Import</div>
     <div class="export-body">
-      <div class="export-warning" data-i18n="export_warning"><strong>Important:</strong> Always save the JSON file in the dedicated folder of your Security Pack on SharePoint — not only on your local device.</div>
+      <div class="export-warning" data-i18n="export_warning"><strong>Important:</strong> Always save the JSON file in the dedicated folder of your Security Pack on SharePoint, not only on your local device.</div>
       <div class="export-option" id="shareOption" onclick="shareJSON()" style="display:none">
         <div class="export-opt-icon">📤</div>
         <div>
@@ -794,14 +797,7 @@ input[type=file].hidden-input { display: none; }
         <div class="export-opt-icon">💾</div>
         <div>
           <div class="export-opt-label" data-i18n="export_json_label">Save as JSON</div>
-          <div class="export-opt-desc" data-i18n="export_json_desc">Full backup — reloadable on any device</div>
-        </div>
-      </div>
-      <div class="export-option" onclick="exportCSV()">
-        <div class="export-opt-icon">📊</div>
-        <div>
-          <div class="export-opt-label" data-i18n="export_csv_label">Export CSV</div>
-          <div class="export-opt-desc" data-i18n="export_csv_desc">Full checklist — open in Excel or SharePoint</div>
+          <div class="export-opt-desc" data-i18n="export_json_desc">Full backup, reloadable on any device</div>
         </div>
       </div>
       <div class="export-option" onclick="printTool()">
@@ -890,13 +886,13 @@ input[type=file].hidden-input { display: none; }
 /* ================================================================
    TOOL CONFIG
    ================================================================ */
-const TOOL_VERSION_BASE = '1.3';
+const TOOL_VERSION_BASE = '1.4';
 const TOOL_VERSION = 'v' + TOOL_VERSION_BASE;
 const LS_KEY = 'lwf_buil_v1';
 let lang = 'en';
 
 /* ================================================================
-   I18N — data-i18n pattern (identique Risk Assessment)
+   I18N : data-i18n pattern (identique Risk Assessment)
    ================================================================ */
 const I18N = {
   en: {
@@ -906,18 +902,17 @@ const I18N = {
     notice_title: 'LWF Site Assessment',
     notice_desc: 'Designed to be used on a <strong>smartphone or tablet</strong> during the site visit. Complete the general information, then go through the checklist as you walk through each area. Data is saved automatically on this device.',
     notice_tips_title: 'Tips',
-    notice_tip1: 'Open this tool on your phone or tablet before entering the site — keep it in hand as you move through each area.',
-    notice_tip2: 'Take photos when prompted — they are not mandatory but highly recommended.',
+    notice_tip1: 'Open this tool on your phone or tablet before entering the site, and keep it in hand as you move through each area.',
+    notice_tip2: 'Take photos when prompted. They are not mandatory but highly recommended.',
     notice_tip3: 'Items marked NO or PARTIAL will automatically appear in the Action Plan tab.',
     notice_tip4: 'Export your evaluation as JSON to save it in the Security Pack on SharePoint.',
     notice_save_text: 'Data is saved automatically in your browser. <strong>Always export the JSON file</strong> and save it in the dedicated folder of your Security Pack on SharePoint.',
     btn_start: 'Start →',
     btn_close: 'Close',
     export_header: 'Export / Import',
-    export_warning: '<strong>Important:</strong> Always save the JSON file in the dedicated folder of your Security Pack on SharePoint — not only on your local device.',
+    export_warning: '<strong>Important:</strong> Always save the JSON file in the dedicated folder of your Security Pack on SharePoint, not only on your local device.',
     export_share_label: 'Share (email, Teams, WhatsApp…)', export_share_desc: 'Recommended on phone / tablet',
-    export_json_label: 'Save as JSON', export_json_desc: 'Full backup — reloadable on any device',
-    export_csv_label: 'Export CSV', export_csv_desc: 'Full checklist — open in Excel or SharePoint',
+    export_json_label: 'Save as JSON', export_json_desc: 'Full backup, reloadable on any device',
     export_print_label: 'Print / PDF', export_print_desc: 'Via browser',
     import_json_label: 'Load a JSON backup', import_json_desc: 'Resume a saved session',
     reset_header: '🔄 Reset?',
@@ -935,19 +930,19 @@ const I18N = {
     sum_scored: 'scored',
     sum_global: 'Overall (indicative)',
     sum_legend_title: 'Reading guide',
-    sum_legend_good: '75–100% — Satisfactory',
-    sum_legend_mod: '50–74% — To reinforce',
-    sum_legend_weak: '0–49% — Weak, priority',
+    sum_legend_good: '75–100%: Satisfactory',
+    sum_legend_mod: '50–74%: To reinforce',
+    sum_legend_weak: '0–49%: Weak, priority',
     btn_help: '❓ Help', btn_reset: '🔄 Reset', btn_export: '⬇ Export / Import',
     export_prefix: 'Site_Assessment',
     // Step 0
     card_general: 'General Information',
     field_country: 'Country', ph_country: 'e.g. Kenya',
     field_office: 'Office / Sub-office', ph_office: 'e.g. Nairobi',
-    field_sfp: 'Evaluator — Name and function', ph_sfp: 'FirstName LASTNAME — SFP / Admin',
+    field_sfp: 'Evaluator (Name and function)', ph_sfp: 'FirstName LASTNAME, SFP / Admin',
     field_date: 'Evaluation date',
     field_risk: 'Country risk level',
-    risk_opts: '--,1 — Low,2 — Moderate,3 — High,4 — Critical,5 — Extreme',
+    risk_opts: '--,1 - Low,2 - Moderate,3 - High,4 - Critical,5 - Extreme',
     card_location: 'Building Location',
     field_address: 'Address', ph_address: 'Street, neighbourhood, city',
     field_gps: 'GPS Coordinates', ph_gps: 'e.g. -1.2921, 36.8219',
@@ -959,9 +954,9 @@ const I18N = {
     card_building: 'Building Characteristics',
     field_area_build: 'Building area (m²)', field_area_plot: 'Plot area (m²)',
     field_type: 'Building type',
-    type_picker_title: '1. Building type — required',
-    type_picker_sub: 'Tap to choose. This determines which questions appear in the checklist.',
-    type_banner: 'Building type not selected — tap here to choose it. Some questions may be missing.',
+    type_picker_title: '1. Building type (required)',
+    type_picker_sub: 'Tap to choose. You can select several types if the site combines functions (e.g. office + warehouse + staff accommodation). This determines which questions appear in the checklist.',
+    type_banner: 'Building type not selected. Tap here to choose it. Some questions may be missing.',
     type_office: 'Office / Villa', type_apt: 'Apartment', type_other: 'Warehouse',
     field_floors: 'Total floors (building)', field_floor_apt: 'Apartment floor',
     field_apt_specs: 'Other specifications', ph_apt_specs: 'Lift, stairwell, roof access...',
@@ -973,7 +968,7 @@ const I18N = {
     photo_hint: '📷 photo recommended',
     // Action plan
     ap_title: 'Action Plan',
-    ap_desc: 'Items marked NO or PARTIAL — corrective actions to plan.',
+    ap_desc: 'Items marked NO or PARTIAL: corrective actions to plan.',
     ap_action: 'Corrective action', ap_resp: 'Responsible', ap_due: 'Target date', ap_status: 'Status',
     ap_status_opts: '-- Status,In progress,Partially,Done,Suspended',
     ap_comment: 'Evaluator comment',
@@ -999,6 +994,12 @@ const I18N = {
     sub_fire: 'Fire prevention',
     sub_power: 'Power / Energy',
     sub_intrusion: 'Staff protection in case of intrusion',
+    // Natural hazards module (conditional, v1.4)
+    cat_hazards: 'Specific Natural Hazards',
+    hazard_picker_title: 'Applicable natural hazards',
+    hazard_picker_sub: 'Check the hazards relevant to this site. The corresponding questions will appear below. Leaving it unchecked if not relevant will not affect the score.',
+    hazard_seismic: 'Earthquake',
+    sub_seismic: 'Earthquake',
   },
   fr: {
     topbar_title: 'Évaluation du site',
@@ -1007,18 +1008,17 @@ const I18N = {
     notice_title: 'Évaluation du site LWF',
     notice_desc: 'Outil conçu pour être utilisé sur <strong>smartphone ou tablette</strong> pendant la visite du site. Remplissez les informations générales, puis parcourez la checklist en vous déplaçant sur le site. Les données sont sauvegardées automatiquement sur cet appareil.',
     notice_tips_title: 'Conseils',
-    notice_tip1: 'Ouvrez cet outil sur votre téléphone ou tablette avant d&#39;entrer sur le site — gardez-le en main pendant toute la visite.',
-    notice_tip2: 'Prenez des photos lorsque c&#39;est suggéré — elles ne sont pas obligatoires mais fortement recommandées.',
+    notice_tip1: 'Ouvrez cet outil sur votre téléphone ou tablette avant d&#39;entrer sur le site, gardez-le en main pendant toute la visite.',
+    notice_tip2: 'Prenez des photos lorsque c&#39;est suggéré. Elles ne sont pas obligatoires mais fortement recommandées.',
     notice_tip3: 'Les items marqués NON ou PARTIEL apparaîtront automatiquement dans l&#39;onglet Plan d&#39;action.',
     notice_tip4: 'Exportez votre évaluation en JSON pour la sauvegarder dans le Security Pack sur SharePoint.',
     notice_save_text: 'Les données sont sauvegardées automatiquement dans votre navigateur. <strong>Exportez toujours le fichier JSON</strong> et sauvegardez-le dans le dossier dédié de votre Pack Sécurité sur SharePoint.',
     btn_start: 'Commencer →',
     btn_close: 'Fermer',
     export_header: 'Exporter / Importer',
-    export_warning: '<strong>Important :</strong> Sauvegardez toujours le fichier JSON dans le dossier dédié de votre Pack Sécurité sur SharePoint — pas uniquement en local.',
+    export_warning: '<strong>Important :</strong> Sauvegardez toujours le fichier JSON dans le dossier dédié de votre Pack Sécurité sur SharePoint, pas uniquement en local.',
     export_share_label: 'Partager (email, Teams, WhatsApp…)', export_share_desc: 'Recommandé sur téléphone / tablette',
-    export_json_label: 'Sauvegarder en JSON', export_json_desc: 'Sauvegarde complète — rechargeable sur n&#39;importe quel poste',
-    export_csv_label: 'Exporter en CSV', export_csv_desc: 'Checklist complète — ouvrir dans Excel ou SharePoint',
+    export_json_label: 'Sauvegarder en JSON', export_json_desc: 'Sauvegarde complète, rechargeable sur n&#39;importe quel poste',
     export_print_label: 'Imprimer / PDF', export_print_desc: 'Via le navigateur',
     import_json_label: 'Charger une sauvegarde JSON', import_json_desc: 'Reprendre un travail sauvegardé',
     reset_header: '🔄 Remettre à zéro ?',
@@ -1036,18 +1036,18 @@ const I18N = {
     sum_scored: 'évalués',
     sum_global: 'Global (indicatif)',
     sum_legend_title: 'Guide de lecture',
-    sum_legend_good: '75–100% — Satisfaisant',
-    sum_legend_mod: '50–74% — À renforcer',
-    sum_legend_weak: '0–49% — Faible, prioritaire',
+    sum_legend_good: '75–100% : Satisfaisant',
+    sum_legend_mod: '50–74% : À renforcer',
+    sum_legend_weak: '0–49% : Faible, prioritaire',
     btn_help: '❓ Aide', btn_reset: '🔄 Remise à zéro', btn_export: '⬇ Exporter / Importer',
     export_prefix: 'Évaluation_site',
     card_general: 'Informations générales',
     field_country: 'Pays', ph_country: 'ex. Kenya',
     field_office: 'Bureau / Sous-bureau', ph_office: 'ex. Nairobi',
-    field_sfp: 'Évaluateur — Nom et fonction', ph_sfp: 'Prénom NOM — SFP / Admin',
+    field_sfp: 'Évaluateur (Nom et fonction)', ph_sfp: 'Prénom NOM, SFP / Admin',
     field_date: 'Date d&#39;évaluation',
     field_risk: 'Niveau de risque pays',
-    risk_opts: '--,1 — Faible,2 — Modéré,3 — Élevé,4 — Critique,5 — Extrême',
+    risk_opts: '--,1 - Faible,2 - Modéré,3 - Élevé,4 - Critique,5 - Extrême',
     card_location: 'Localisation du bâtiment',
     field_address: 'Adresse', ph_address: 'Rue, quartier, ville',
     field_gps: 'Coordonnées GPS', ph_gps: 'ex. -1.2921, 36.8219',
@@ -1059,9 +1059,9 @@ const I18N = {
     card_building: 'Caractéristiques du bâtiment',
     field_area_build: 'Surface bâtiment (m²)', field_area_plot: 'Surface terrain (m²)',
     field_type: 'Type de bâtiment',
-    type_picker_title: '1. Type de bâtiment — obligatoire',
-    type_picker_sub: 'Touchez pour choisir. Ce choix détermine les questions de la checklist.',
-    type_banner: 'Type de bâtiment non sélectionné — touchez ici pour le choisir. Des questions peuvent manquer.',
+    type_picker_title: '1. Type de bâtiment (obligatoire)',
+    type_picker_sub: 'Touchez pour choisir. Vous pouvez sélectionner plusieurs types si le site combine plusieurs usages (ex. bureau + entrepôt + logement du personnel). Ce choix détermine les questions de la checklist.',
+    type_banner: 'Type de bâtiment non sélectionné. Touchez ici pour le choisir. Des questions peuvent manquer.',
     type_office: 'Bureau / Villa', type_apt: 'Appartement', type_other: 'Entrepôt',
     field_floors: 'Nb d&#39;étages (bâtiment)', field_floor_apt: 'Étage de l&#39;appartement',
     field_apt_specs: 'Autres spécifications', ph_apt_specs: 'Ascenseur, cage d&#39;escalier, accès toit...',
@@ -1071,7 +1071,7 @@ const I18N = {
     r_yes: 'OUI', r_no: 'NON', r_na: 'N/A', r_pt: 'PARTIEL',
     photo_hint: '📷 photo conseillée',
     ap_title: 'Plan d&#39;action',
-    ap_desc: 'Items marqués NON ou PARTIEL — actions correctives à planifier.',
+    ap_desc: 'Items marqués NON ou PARTIEL : actions correctives à planifier.',
     ap_action: 'Action corrective', ap_resp: 'Responsable', ap_due: 'Date prévue', ap_status: 'Statut',
     ap_status_opts: '-- Statut,En cours,Partiellement,Terminé,Suspendu',
     ap_comment: 'Commentaire de l&#39;évaluateur',
@@ -1096,6 +1096,12 @@ const I18N = {
     sub_fire: 'Prévention incendie',
     sub_power: 'Alimentation électrique / Énergie',
     sub_intrusion: 'Protection du personnel en cas d&#39;intrusion',
+    // Module aléas naturels (conditionnel, v1.4)
+    cat_hazards: 'Aléas naturels spécifiques',
+    hazard_picker_title: 'Aléas naturels applicables',
+    hazard_picker_sub: 'Cochez les aléas pertinents pour ce site. Les questions correspondantes apparaîtront ci-dessous. Laisser décoché si non pertinent n&#39;affecte pas le score.',
+    hazard_seismic: 'Séisme',
+    sub_seismic: 'Séisme',
   },
   es: {
     topbar_title: 'Evaluación del sitio',
@@ -1104,18 +1110,17 @@ const I18N = {
     notice_title: 'Evaluación del sitio LWF',
     notice_desc: 'Herramienta diseñada para usarse en un <strong>teléfono o tableta</strong> durante la visita al sitio. Complete la información general, luego recorra la lista de verificación mientras recorre el sitio. Los datos se guardan automáticamente en este dispositivo.',
     notice_tips_title: 'Consejos',
-    notice_tip1: 'Abra esta herramienta en su teléfono o tableta antes de entrar al sitio — manténgala en mano durante todo el recorrido.',
-    notice_tip2: 'Tome fotos cuando se sugiera — no son obligatorias pero muy recomendadas.',
+    notice_tip1: 'Abra esta herramienta en su teléfono o tableta antes de entrar al sitio, manténgala en mano durante todo el recorrido.',
+    notice_tip2: 'Tome fotos cuando se sugiera. No son obligatorias pero muy recomendadas.',
     notice_tip3: 'Los ítems marcados NO o PARCIAL aparecerán automáticamente en la pestaña Plan de acción.',
     notice_tip4: 'Exporte su evaluación en JSON para guardarla en el Security Pack en SharePoint.',
     notice_save_text: 'Los datos se guardan automáticamente en su navegador. <strong>Exporte siempre el archivo JSON</strong> y guárdelo en la carpeta dedicada de su Pack de Seguridad en SharePoint.',
     btn_start: 'Comenzar →',
     btn_close: 'Cerrar',
     export_header: 'Exportar / Importar',
-    export_warning: '<strong>Importante:</strong> Guarde siempre el archivo JSON en la carpeta dedicada de su Pack de Seguridad en SharePoint — no solo en su dispositivo local.',
+    export_warning: '<strong>Importante:</strong> Guarde siempre el archivo JSON en la carpeta dedicada de su Pack de Seguridad en SharePoint, no solo en su dispositivo local.',
     export_share_label: 'Compartir (email, Teams, WhatsApp…)', export_share_desc: 'Recomendado en teléfono / tableta',
-    export_json_label: 'Guardar en JSON', export_json_desc: 'Copia de seguridad completa — recargable en cualquier dispositivo',
-    export_csv_label: 'Exportar CSV', export_csv_desc: 'Lista completa — abrir en Excel o SharePoint',
+    export_json_label: 'Guardar en JSON', export_json_desc: 'Copia de seguridad completa, recargable en cualquier dispositivo',
     export_print_label: 'Imprimir / PDF', export_print_desc: 'A través del navegador',
     import_json_label: 'Cargar una copia JSON', import_json_desc: 'Reanudar una sesión guardada',
     reset_header: '🔄 ¿Reiniciar?',
@@ -1133,18 +1138,18 @@ const I18N = {
     sum_scored: 'evaluados',
     sum_global: 'Global (indicativo)',
     sum_legend_title: 'Guía de lectura',
-    sum_legend_good: '75–100% — Satisfactorio',
-    sum_legend_mod: '50–74% — A reforzar',
-    sum_legend_weak: '0–49% — Débil, prioritario',
+    sum_legend_good: '75–100% : Satisfactorio',
+    sum_legend_mod: '50–74% : A reforzar',
+    sum_legend_weak: '0–49% : Débil, prioritario',
     btn_help: '❓ Ayuda', btn_reset: '🔄 Reiniciar', btn_export: '⬇ Exportar / Importar',
     export_prefix: 'Evaluacion_sitio',
     card_general: 'Información general',
     field_country: 'País', ph_country: 'ej. Kenya',
     field_office: 'Oficina / Sub-oficina', ph_office: 'ej. Nairobi',
-    field_sfp: 'Evaluador — Nombre y función', ph_sfp: 'Nombre APELLIDO — SFP / Admin',
+    field_sfp: 'Evaluador (Nombre y función)', ph_sfp: 'Nombre APELLIDO, SFP / Admin',
     field_date: 'Fecha de evaluación',
     field_risk: 'Nivel de riesgo país',
-    risk_opts: '--,1 — Bajo,2 — Moderado,3 — Alto,4 — Crítico,5 — Extremo',
+    risk_opts: '--,1 - Bajo,2 - Moderado,3 - Alto,4 - Crítico,5 - Extremo',
     card_location: 'Ubicación del edificio',
     field_address: 'Dirección', ph_address: 'Calle, barrio, ciudad',
     field_gps: 'Coordenadas GPS', ph_gps: 'ej. -1.2921, 36.8219',
@@ -1156,9 +1161,9 @@ const I18N = {
     card_building: 'Características del edificio',
     field_area_build: 'Superficie edificio (m²)', field_area_plot: 'Superficie terreno (m²)',
     field_type: 'Tipo de edificio',
-    type_picker_title: '1. Tipo de edificio — obligatorio',
-    type_picker_sub: 'Toque para elegir. Esto determina qué preguntas aparecen en la lista.',
-    type_banner: 'Tipo de edificio no seleccionado — toque aquí para elegirlo. Pueden faltar preguntas.',
+    type_picker_title: '1. Tipo de edificio (obligatorio)',
+    type_picker_sub: 'Toque para elegir. Puede seleccionar varios tipos si el sitio combina varios usos (ej. oficina + almacén + alojamiento del personal). Esto determina qué preguntas aparecen en la lista.',
+    type_banner: 'Tipo de edificio no seleccionado. Toque aquí para elegirlo. Pueden faltar preguntas.',
     type_office: 'Oficina / Villa', type_apt: 'Apartamento', type_other: 'Almacén',
     field_floors: 'Nº de plantas (edificio)', field_floor_apt: 'Planta del apartamento',
     field_apt_specs: 'Otras especificaciones', ph_apt_specs: 'Ascensor, escalera, acceso techo...',
@@ -1168,7 +1173,7 @@ const I18N = {
     r_yes: 'SÍ', r_no: 'NO', r_na: 'N/A', r_pt: 'PARCIAL',
     photo_hint: '📷 foto recomendada',
     ap_title: 'Plan de acción',
-    ap_desc: 'Ítems marcados NO o PARCIAL — acciones correctivas a planificar.',
+    ap_desc: 'Ítems marcados NO o PARCIAL: acciones correctivas a planificar.',
     ap_action: 'Acción correctiva', ap_resp: 'Responsable', ap_due: 'Fecha prevista', ap_status: 'Estado',
     ap_status_opts: '-- Estado,En curso,Parcialmente,Terminado,Suspendido',
     ap_comment: 'Comentario del evaluador',
@@ -1193,10 +1198,16 @@ const I18N = {
     sub_fire: 'Prevención de incendios',
     sub_power: 'Energía eléctrica',
     sub_intrusion: 'Protección del personal en caso de intrusión',
+    // Módulo de amenazas naturales (condicional, v1.4)
+    cat_hazards: 'Amenazas naturales específicas',
+    hazard_picker_title: 'Amenazas naturales aplicables',
+    hazard_picker_sub: 'Marque las amenazas pertinentes para este sitio. Las preguntas correspondientes aparecerán a continuación. Dejarlo sin marcar si no es pertinente no afecta la puntuación.',
+    hazard_seismic: 'Terremoto',
+    sub_seismic: 'Terremoto',
   }
 };
 
-// Questions are stored separately — only EN text here; FR/ES loaded from I18N-style objects
+// Questions are stored separately: only EN text here; FR/ES loaded from I18N-style objects
 // Each question: { n, q:{en,fr,es}, photo?:true }
 // Category/subcategory names use i18n keys
 const CATS = [
@@ -1219,6 +1230,26 @@ const CATS = [
       {n:15,q:{en:'Is the perimeter protection similar to that of other buildings in the area?',fr:'La protection du périmètre est-elle similaire à celle des autres bâtiments de la zone ?',es:'¿La protección del perímetro es similar a la de otros edificios de la zona?'}},
       {n:16,q:{en:'Who is the building owner and are they reliable and reputable? Do they have links with any armed group?',fr:'Qui est le propriétaire du bâtiment et est-il fiable et réputé ? A-t-il des liens avec un groupe armé ?',es:'¿Quién es el propietario del edificio y es confiable? ¿Tiene vínculos con algún grupo armado?'}},
       {n:17,q:{en:'Is the neighbourhood&#39;s security history known and acceptable? (past incidents: burglaries, attacks, unrest)',fr:'L&#39;historique sécuritaire du quartier est-il connu et acceptable ? (incidents passés : cambriolages, attaques, troubles)',es:'¿Se conoce y es aceptable el historial de seguridad del vecindario? (incidentes pasados: robos, ataques, disturbios)'}},
+    ]}
+  ]},
+  // Module conditionnel : n'apparaît que si l'aléa correspondant est coché dans le
+  // sélecteur en tête de catégorie (voir renderHazardPicker / toggleHazard).
+  // Ajouter un futur aléa (cyclone, volcan, inondation majeure) = ajouter un sous-bloc
+  // ici + une entrée dans HAZARD_DEFS. Aucune autre logique à toucher.
+  { id:'hazards', nameKey:'cat_hazards', subcats:[
+    { nameKey:'sub_seismic', hazardTag:'seismic', items:[
+      {n:87,q:{en:'Has the building or area already suffered damage during a past earthquake?',fr:'Le bâtiment ou la zone a-t-il déjà subi des dommages lors d&#39;un séisme passé ?',es:'¿El edificio o la zona ya ha sufrido daños durante un terremoto pasado?'}},
+      {n:88,q:{en:'Are there older, poorly maintained or tall neighbouring buildings likely to collapse onto the site or block the exits?',fr:'Y a-t-il des bâtiments voisins plus anciens, mal entretenus ou de grande hauteur susceptibles de s&#39;effondrer sur le site ou de bloquer les issues ?',es:'¿Hay edificios vecinos más antiguos, mal mantenidos o altos susceptibles de derrumbarse sobre el sitio o bloquear las salidas?'}},
+      {n:89,q:{en:'Is the building built with reinforced material (reinforced concrete, chained concrete blocks) rather than unreinforced material (mud brick, adobe, dry stone, unchained brick)?',fr:'Le bâtiment est-il construit en dur (béton armé, parpaing chaîné) plutôt qu&#39;en matériaux non renforcés (terre crue, adobe, pierre sèche, briques non chaînées) ?',es:'¿El edificio está construido con material reforzado (hormigón armado, bloques encadenados) en lugar de material sin refuerzo (adobe, tapial, piedra seca, ladrillo sin cadena)?'}},
+      {n:90,q:{en:'Is the ground floor open or largely glazed while the upper floors are full walls ("soft-story" effect)?',fr:'Le rez-de-chaussée est-il ouvert ou largement vitré alors que les étages supérieurs sont pleins (effet "rez-de-chaussée souple") ?',es:'¿La planta baja está abierta o mayormente acristalada mientras los pisos superiores tienen muros llenos (efecto "planta blanda")?'}},
+      {n:91,q:{en:'Are there visible cracks on load-bearing walls, columns or lintels (excluding superficial cosmetic cracks)?',fr:'Y a-t-il des fissures visibles sur des murs porteurs, poteaux ou linteaux (hors fissures esthétiques superficielles) ?',es:'¿Hay grietas visibles en muros de carga, columnas o dinteles (sin contar grietas cosméticas superficiales)?'}},
+      {n:92,q:{en:'Has the building undergone any known seismic reinforcement or retrofit (added chaining, bracing)?',fr:'Le bâtiment a-t-il fait l&#39;objet d&#39;un renforcement ou d&#39;une mise aux normes parasismique connue (chaînages ajoutés, contreventement) ?',es:'¿El edificio ha sido objeto de algún refuerzo o adaptación sísmica conocida (encadenado añadido, arriostramiento)?'}},
+      {n:93,q:{en:'Is there an engineer&#39;s report or structural compliance certificate available for this building?',fr:'Existe-t-il un rapport d&#39;ingénieur ou une attestation de conformité structurelle pour ce bâtiment ?',es:'¿Existe un informe de ingeniería o un certificado de conformidad estructural para este edificio?'}},
+      {n:94,q:{en:'Are tall furniture, shelving units and cabinets fixed to the wall to prevent tipping during shaking?',fr:'Les meubles hauts, étagères et armoires sont-ils fixés au mur pour éviter un basculement en cas de secousse ?',es:'¿Los muebles altos, estanterías y armarios están fijados a la pared para evitar que vuelquen durante un sismo?'}},
+      {n:95,q:{en:'Is the water heater / gas tank / heavy equipment strapped down, and is the gas/water shut-off valve easily accessible and known to staff?',fr:'Le chauffe-eau, la citerne de gaz ou les équipements lourds sont-ils arrimés, et la vanne de coupure gaz/eau est-elle facilement accessible et connue du personnel ?',es:'¿El calentador de agua, el tanque de gas o los equipos pesados están asegurados, y la válvula de corte de gas/agua es fácilmente accesible y conocida por el personal?'}},
+      {n:96,q:{en:'Is there an identified outdoor assembly point clear of any falling-object risk (façades, power lines, glass canopies)?',fr:'Existe-t-il un point de rassemblement extérieur identifié, dégagé de tout risque de chute (façades, lignes électriques, verrières) ?',es:'¿Existe un punto de encuentro exterior identificado, despejado de todo riesgo de caída (fachadas, líneas eléctricas, marquesinas de vidrio)?'}},
+      {n:97,q:{en:'Has staff been briefed on earthquake-specific conduct (drop-cover-hold, do not rush down stairwells), distinct from fire evacuation?',fr:'Le personnel a-t-il été briefé sur la conduite à tenir spécifique en cas de séisme (se protéger sur place, ne pas se précipiter dans les escaliers), distincte de l&#39;évacuation incendie ?',es:'¿Se ha informado al personal sobre la conducta específica en caso de terremoto (protegerse en el lugar, no correr por las escaleras), distinta de la evacuación por incendio?'}},
+      {n:98,q:{en:'Does the building have at least two usable exits in case of partial collapse or a blocked exit?',fr:'Le bâtiment dispose-t-il d&#39;au moins deux issues utilisables en cas d&#39;effondrement partiel ou de blocage d&#39;une sortie ?',es:'¿El edificio dispone de al menos dos salidas utilizables en caso de derrumbe parcial o bloqueo de una salida?'}},
     ]}
   ]},
   { id:'passive', nameKey:'cat_passive', subcats:[
@@ -1327,7 +1358,7 @@ const CATS = [
 ];
 
 /* ================================================================
-   ITEM_META — Pondération et logique de score (centralisé, modifiable par le SA)
+   ITEM_META : Pondération et logique de score (centralisé, modifiable par le SA)
    w  : 'C' = Critique (killer)  |  'I' = Important  |  'D' = Souhaitable  |  null = non scoré (descriptif)
    inv: true = question inversée (OUI = risque / mauvais)
    Poids numériques : C=3, I=2, D=1
@@ -1364,20 +1395,50 @@ const ITEM_META = {
   // Spécifique APPARTEMENT (immeuble)
   76:{w:'I',tag:'apt'}, 77:{w:'I',tag:'apt'}, 78:{w:'D',tag:'apt'}, 79:{w:'C',tag:'apt'},
   80:{w:'I',tag:'apt'}, 81:{w:'I',inv:true,tag:'apt'}, 82:{w:'I',tag:'apt'}, 83:{w:'I',inv:true,tag:'apt'},
-  84:{w:'I',tag:'apt'}, 85:{w:'I',tag:'apt'}, 86:{w:'I',tag:'apt'}
+  84:{w:'I',tag:'apt'}, 85:{w:'I',tag:'apt'}, 86:{w:'I',tag:'apt'},
+  // Module Séisme (tag 'all' = tous types de bâtiment ; hazardTag = visible seulement
+  // si l'aléa correspondant est coché dans le sélecteur de la catégorie Aléas naturels)
+  87:{w:'I',inv:true,tag:'all',hazardTag:'seismic'},
+  88:{w:'I',inv:true,tag:'all',hazardTag:'seismic'},
+  89:{w:'C',tag:'all',hazardTag:'seismic'},
+  90:{w:'C',inv:true,tag:'all',hazardTag:'seismic'},
+  91:{w:'C',inv:true,tag:'all',hazardTag:'seismic'},
+  92:{w:'I',tag:'all',hazardTag:'seismic'},
+  93:{w:'D',tag:'all',hazardTag:'seismic'},
+  94:{w:'I',tag:'all',hazardTag:'seismic'},
+  95:{w:'I',tag:'all',hazardTag:'seismic'},
+  96:{w:'I',tag:'all',hazardTag:'seismic'},
+  97:{w:'I',tag:'all',hazardTag:'seismic'},
+  98:{w:'I',tag:'all',hazardTag:'seismic'}
 };
 
-// Which item tags are visible for a given building type
+// Which item tags are visible for the building type(s) selected.
+// f_type is a comma-separated list (multi-select: a site can be office + warehouse
+// + staff accommodation at once). Empty string = old single-value data, still works.
 function visibleTags() {
-  const type = (getFormValues().f_type) || '';
-  if (type === 'apt')   return ['all','apt'];
-  if (type === 'office')return ['all','office'];
-  if (type === 'other') return ['all','office'];   // Autre : commun + parcelle, sans le bloc appartement
-  return ['all','office'];  // type non encore choisi → commun + parcelle par défaut
+  const raw = (getFormValues().f_type) || '';
+  const types = raw.split(',').map(s => s.trim()).filter(Boolean);
+  if (types.length === 0) return ['all','office'];  // type non encore choisi → commun + parcelle par défaut
+  const tags = new Set(['all']);
+  types.forEach(type => {
+    if (type === 'apt') tags.add('apt');
+    else tags.add('office');   // 'office' et 'other' partagent le même bloc commun + parcelle
+  });
+  return Array.from(tags);
+}
+// Which natural hazards are currently checked (module conditionnel, comma-separated,
+// e.g. 'seismic'). Empty = no hazard module selected → hazard-tagged items stay hidden.
+function visibleHazards() {
+  const el = document.getElementById('f_hazards');
+  const raw = el ? el.value : ((getFormValues._stored && getFormValues._stored.f_hazards) || '');
+  return (raw || '').split(',').map(s => s.trim()).filter(Boolean);
 }
 function isItemVisible(n) {
-  const tag = (ITEM_META[n]||{}).tag || 'all';
-  return visibleTags().indexOf(tag) !== -1;
+  const meta = ITEM_META[n] || {};
+  const tag = meta.tag || 'all';
+  if (visibleTags().indexOf(tag) === -1) return false;
+  if (meta.hazardTag && visibleHazards().indexOf(meta.hazardTag) === -1) return false;
+  return true;
 }
 
 // Effective score of a response (0..1), accounting for inversion. Returns null if not counted.
@@ -1407,7 +1468,7 @@ let apData = {};  // { 1: {action:'...',resp:'...',due:'...',status:''}, ... }
 let currentPhotoItem = null;
 
 /* ================================================================
-   HELPER — i18n
+   HELPER : i18n
    ================================================================ */
 function t(key) { return (I18N[lang] && I18N[lang][key]) || (I18N.en[key]) || key; }
 
@@ -1553,9 +1614,15 @@ function renderInfoPage() {
   toggleApt();
 }
 
+// Multi-select: a site can combine several functions (office + warehouse + staff
+// accommodation). Clicking a card toggles it in/out of the comma-separated list
+// rather than replacing the whole selection.
 function setBuildingType(type) {
   const hidden = document.getElementById('f_type');
-  if (hidden) hidden.value = type;
+  const cur = (hidden ? hidden.value : '').split(',').map(s => s.trim()).filter(Boolean);
+  const i = cur.indexOf(type);
+  if (i === -1) cur.push(type); else cur.splice(i, 1);
+  if (hidden) hidden.value = cur.join(',');
   refreshTypeCards();
   toggleApt();
   saveState();
@@ -1563,18 +1630,18 @@ function setBuildingType(type) {
 }
 
 function refreshTypeCards() {
-  const cur = (document.getElementById('f_type') || {}).value || '';
-  document.querySelectorAll('.type-card').forEach(c => c.classList.toggle('selected', c.getAttribute('data-type') === cur));
+  const cur = ((document.getElementById('f_type') || {}).value || '').split(',').map(s => s.trim()).filter(Boolean);
+  document.querySelectorAll('.type-card').forEach(c => c.classList.toggle('selected', cur.indexOf(c.getAttribute('data-type')) !== -1));
   const card = document.getElementById('typePickerCard');
-  if (card) card.classList.toggle('unset', !cur);
+  if (card) card.classList.toggle('unset', cur.length === 0);
   // Checklist warning banner
   updateTypeBanner();
 }
 
 function updateTypeBanner() {
-  const cur = (document.getElementById('f_type') || {}).value || '';
+  const cur = ((document.getElementById('f_type') || {}).value || '').split(',').map(s => s.trim()).filter(Boolean);
   let banner = document.getElementById('typeBanner');
-  if (cur) { if (banner) banner.remove(); return; }
+  if (cur.length) { if (banner) banner.remove(); return; }
   if (!banner) {
     banner = document.createElement('div');
     banner.id = 'typeBanner';
@@ -1589,8 +1656,9 @@ function updateTypeBanner() {
 function toggleApt() {
   const el = document.getElementById('f_type');
   const af = document.getElementById('aptFields');
-  if (el && af) af.style.display = el.value === 'apt' ? 'block' : 'none';
-  // Building type drives which checklist questions are visible — re-render
+  const cur = (el ? el.value : '').split(',').map(s => s.trim()).filter(Boolean);
+  if (af) af.style.display = cur.indexOf('apt') !== -1 ? 'block' : 'none';
+  // Building type drives which checklist questions are visible, re-render
   renderChecklist();
 }
 
@@ -1631,12 +1699,16 @@ function renderChecklist() {
       if (!isItemVisible(item.n)) return;
       totalCat++; if (items[item.n] && items[item.n].resp) answeredCat++;
     }));
-    // Skip category entirely if it has no visible item for the current building type
-    if (totalCat === 0) return;
+    // Skip category entirely if it has no visible item for the current building type,
+    // except "hazards", whose picker must always be reachable so a hazard can be selected.
+    if (totalCat === 0 && cat.id !== 'hazards') return;
 
-    const isFirstCat = cat.id === 'env';
-    html += `<div class="cat-block"><div class="cat-header" onclick="toggleCat('${cat.id}')"><span>${catName}</span> <span style="display:flex;align-items:center;gap:8px"><span class="cat-count">${answeredCat}/${totalCat}</span><span id="catarrow_${cat.id}" style="font-size:10px;font-weight:400;opacity:0.8">${isFirstCat ? '▼' : '▶'}</span></span></div>`;
+    const isFirstCat = cat.id === 'env' || cat.id === 'hazards';
+    const countChip = totalCat > 0 ? `<span class="cat-count">${answeredCat}/${totalCat}</span>` : '';
+    html += `<div class="cat-block"><div class="cat-header" onclick="toggleCat('${cat.id}')"><span>${catName}</span> <span style="display:flex;align-items:center;gap:8px">${countChip}<span id="catarrow_${cat.id}" style="font-size:10px;font-weight:400;opacity:0.8">${isFirstCat ? '▼' : '▶'}</span></span></div>`;
     html += `<div class="cat-body${isFirstCat ? '' : ' collapsed'}" id="catbody_${cat.id}">`;
+
+    if (cat.id === 'hazards') html += renderHazardPicker();
 
     cat.subcats.forEach(sc => {
       const visibleItems = sc.items.filter(item => isItemVisible(item.n));
@@ -1672,6 +1744,47 @@ function renderChecklist() {
   container.innerHTML = html;
   updateProgress();
   updateTypeBanner();
+}
+
+/* ================================================================
+   NATURAL HAZARDS MODULE (conditional picker, v1.4)
+   Add a future hazard (cyclone, volcanic, major flood...) by adding one entry
+   here (id must match the hazardTag used in ITEM_META + CATS) and a new
+   subcat in the 'hazards' category. No other logic needs to change.
+   ================================================================ */
+const HAZARD_DEFS = [
+  { id: 'seismic', icon: '🏚️', labelKey: 'hazard_seismic' },
+];
+
+function renderHazardPicker() {
+  const selected = visibleHazards();
+  // Note : pas de classe "unset" ici. Contrairement au type de bâtiment, ne
+  // rien cocher est un état normal (site hors zone à risque), pas une alerte.
+  let html = `<div class="type-picker-card" id="hazardPickerCard" style="margin-bottom:14px">
+    <div class="type-picker-title">${t('hazard_picker_title')}</div>
+    <div class="type-picker-sub">${t('hazard_picker_sub')}</div>
+    <div class="type-cards">`;
+  HAZARD_DEFS.forEach(h => {
+    const sel = selected.indexOf(h.id) !== -1;
+    html += `<div class="type-card${sel ? ' selected' : ''}" data-hazard="${h.id}" onclick="toggleHazard('${h.id}')">
+      <div class="type-card-icon">${h.icon}</div>
+      <div class="type-card-label">${t(h.labelKey)}</div>
+    </div>`;
+  });
+  html += `</div>
+    <input type="hidden" id="f_hazards" value="${selected.join(',')}">
+  </div>`;
+  return html;
+}
+
+function toggleHazard(id) {
+  const hidden = document.getElementById('f_hazards');
+  const cur = (hidden ? hidden.value : '').split(',').map(s => s.trim()).filter(Boolean);
+  const i = cur.indexOf(id);
+  if (i === -1) cur.push(id); else cur.splice(i, 1);
+  if (hidden) hidden.value = cur.join(',');
+  saveState();
+  renderChecklist();
 }
 
 function toggleSection(header) {
@@ -1839,7 +1952,7 @@ function renderActionPlan() {
           <div class="form-group">
             <div class="form-label">${t('ap_priority')}</div>
             <select class="form-select" onchange="setAP(${item.n},'priority',this.value);renderActionPlan()">
-              <option value="">—</option>
+              <option value="">--</option>
               ${prioOpts.map(p => `<option value="${p}"${ap.priority===p?' selected':''}>${p}</option>`).join('')}
             </select>
           </div>
@@ -2005,12 +2118,12 @@ function renderSummary() {
 
 
 /* ================================================================
-   SAVE / LOAD — identique Risk Assessment pattern
+   SAVE / LOAD : identique Risk Assessment pattern
    ================================================================ */
 function getFormValues() {
   const fields = ['f_country','f_office','f_sfp','f_date','f_risk','f_address','f_gps',
     'f_owner','f_owner_contact','f_owner_notes','f_area_build','f_area_plot',
-    'f_type','f_floors','f_floor_apt','f_apt_specs','f_general'];
+    'f_type','f_floors','f_floor_apt','f_apt_specs','f_general','f_hazards'];
   const vals = {};
   fields.forEach(id => { const el = document.getElementById(id); if (el) vals[id] = el.value; });
   return vals;
@@ -2061,7 +2174,7 @@ function loadState() {
 }
 
 /* ================================================================
-   EXPORT / IMPORT — identique Risk Assessment pattern
+   EXPORT / IMPORT : identique Risk Assessment pattern
    ================================================================ */
 function getExportFilename(ext) {
   const slug = v => (v||'').trim()
@@ -2094,7 +2207,7 @@ async function shareJSON() {
       return;
     }
   } catch(e) {
-    // User cancelled or share failed — fall back to download
+    // User cancelled or share failed, fall back to download
     if (e && e.name === 'AbortError') { return; }
   }
   // Fallback: classic download
@@ -2107,49 +2220,6 @@ function exportJSON() {
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = getExportFilename('json');
-  a.click();
-  closeExport();
-}
-
-function exportCSV() {
-  const BOM = '﻿';
-  let rows = ['#;Question;'+t('r_yes')+'/'+t('r_no')+'/'+t('r_na')+'/'+t('r_pt')+';Weight;Comment;Photos\n'];
-  CATS.forEach(cat => {
-    const visibleInCat = cat.subcats.some(sc => sc.items.some(item => isItemVisible(item.n)));
-    if (!visibleInCat) return;
-    rows.push(t(cat.nameKey).toUpperCase()+';;;;;\n');
-    cat.subcats.forEach(sc => {
-      const visItems = sc.items.filter(item => isItemVisible(item.n));
-      if (visItems.length === 0) return;
-      if (sc.nameKey) rows.push(';'+t(sc.nameKey)+';;;;\n');
-      visItems.forEach(item => {
-        const d = items[item.n]||{};
-        const resp = d.resp==='yes'?t('r_yes'):d.resp==='no'?t('r_no'):d.resp==='na'?t('r_na'):d.resp==='pt'?t('r_pt'):'';
-        const meta = ITEM_META[item.n]||{};
-        const wlabel = meta.w==='C'?'Critical':meta.w==='I'?'Important':meta.w==='D'?'Desirable':'';
-        const inv = meta.inv ? ' (inv)' : '';
-        const q = '"'+(item.q[lang]||item.q.en).replace(/"/g,'""')+'"';
-        const c = '"'+((d.comment||'')).replace(/"/g,'""')+'"';
-        rows.push(item.n+';'+q+';'+resp+';'+wlabel+inv+';'+c+';'+((d.photos||[]).join(' | '))+'\n');
-      });
-    });
-  });
-  // Scoring summary block
-  const sc = computeScores();
-  rows.push(';;;;;\n');
-  rows.push('=== '+t('tab_summary').toUpperCase()+' ===;;;;;\n');
-  sc.cats.forEach(cat => {
-    rows.push(';'+t(cat.nameKey)+';'+(cat.score===null?'N/A':cat.score+'%')+';;;\n');
-  });
-  rows.push(';'+t('sum_global')+';'+(sc.global===null?'N/A':sc.global+'%')+';;;\n');
-  rows.push(';'+t('sum_redflags')+';'+sc.redFlags.length+';;;\n');
-  sc.redFlags.forEach(item => {
-    rows.push(';#'+item.n+' '+(item.q[lang]||item.q.en).replace(/"/g,'')+';;;;\n');
-  });
-  const blob = new Blob([BOM+rows.join('')], {type:'text/csv;charset=utf-8'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = getExportFilename('csv');
   a.click();
   closeExport();
 }
@@ -2205,10 +2275,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const vEl = document.getElementById('topbarVersion');
     if (vEl) vEl.textContent = TOOL_VERSION;
     const nv = document.getElementById('noticeVersion');
-    if (nv) nv.textContent = 'BUIL ' + TOOL_VERSION + ' — Juin 2026';
+    if (nv) nv.textContent = 'Site Assessment ' + TOOL_VERSION;
 
     // Language: browser detection wins; manual choice (this session) stored in localStorage
-    // but ONLY used if there is also saved session data — otherwise browser always wins
+    // but ONLY used if there is also saved session data, otherwise browser always wins
     const manualLang = localStorage.getItem('lwf_buil_lang_manual');
     const hasSavedSession = !!localStorage.getItem('lwf_buil_v1');
     const browserLang = (navigator.language || navigator.userLanguage || 'en').slice(0, 2).toLowerCase();
@@ -2259,5 +2329,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 })();
 </script>
+<!-- Outil conçu et maintenu par Pierre Beaurenaut, Security Advisor, LWF World Service.
+     Maintenance centralisée : ne pas modifier le code sur le terrain, faire remonter au SA. -->
 </body>
 </html>

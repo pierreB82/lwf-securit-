@@ -4,6 +4,7 @@
   Outil d'analyse des risques Sécurité & Sûreté
   Conçu par Pierre Beaurenaut pour la Fédération Luthérienne Mondiale (FLM / LWF)
   Version 1.1 — Mai 2026
+  V2.1 (2026-07-03) : vocabulaire sauvegarde non technique (aligné squelette V1.1), notice enrichie, modale export réordonnée.
   Basé sur le TOOL_EVAL_Table of SS Risk Assessment MANAGEMENT V3.2
   ================================================================
 -->
@@ -927,7 +928,7 @@ body {
     <button class="lang-btn" onclick="setLang('es')" title="Español"><span class="lang-flag">🇪🇸</span><span class="lang-abbr" style="display:none">ES</span></button>
   </div>
   <button class="btn-reset" onclick="confirmReset()" data-i18n="btn_reset">🔄 Remise à zéro</button>
-  <button class="btn-export" onclick="openExport()" data-i18n="btn_export">⬇ Exporter / Importer</button>
+  <button class="btn-export" onclick="openExport()" data-i18n="btn_export">💾 Sauvegarder / Exporter</button>
 </div>
 
 <!-- ============================================================
@@ -1007,7 +1008,7 @@ body {
             <div class="notice-phase-label">
               <span data-i18n="notice_phase4_label">Save &amp; validation</span>
             </div>
-            <div class="notice-phase-desc" data-i18n="notice_phase4_desc">Export the JSON file → save in your Local Security Pack, Risk Assessment folder → share with the Security Advisor for validation.</div>
+            <div class="notice-phase-desc" data-i18n="notice_phase4_desc">Create your backup file (Save my work) → save in your Local Security Pack, Risk Assessment folder → share with the Security Advisor for validation.</div>
           </div>
         </div>
 
@@ -1029,6 +1030,12 @@ body {
         <div class="notice-reminder-item" data-i18n="notice_ctx_1">Each office must conduct its own assessment — linked to a specific geographical context.</div>
         <div class="notice-reminder-item" data-i18n="notice_ctx_2">Base analysis on past incidents and field knowledge, not theoretical scenarios.</div>
         <div class="notice-reminder-item" data-i18n="notice_ctx_4">All voices matter — diverse profiles enrich the analysis.</div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:12px 14px;margin-top:14px;margin-bottom:12px">
+          <div data-i18n="notice_tuto_title" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">💾 Où vont mes données ?</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px"><span style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">1</span><span data-i18n="notice_tuto_1" style="font-size:12px;color:var(--text2);line-height:1.5">Vos réponses s'enregistrent automatiquement, mais <strong>uniquement dans ce navigateur, sur cet ordinateur</strong>.</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px"><span style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">2</span><span data-i18n="notice_tuto_2" style="font-size:12px;color:var(--text2);line-height:1.5">À la fin de chaque session, cliquez sur <strong>💾 Sauvegarder / Exporter</strong> puis <strong>Sauvegarder mon travail</strong> : l'outil crée votre fichier de sauvegarde.</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">3</span><span data-i18n="notice_tuto_3" style="font-size:12px;color:var(--text2);line-height:1.5">Rangez ce fichier dans votre Pack Sécurité sur SharePoint. Pour reprendre plus tard ou sur un autre poste : <strong>Reprendre une sauvegarde</strong>.</span></div>
+        </div>
         <div class="notice-reminder-item" data-i18n="notice_ctx_help"><span style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#c0392b;color:#fff;font-size:9px;font-weight:700;vertical-align:middle;margin-right:4px;flex-shrink:0">?</span> Throughout the tool, click the red <strong>?</strong> buttons to get explanations and guidance at any time.</div>
         <div class="notice-review">
           <div class="notice-review-icon">🔄</div>
@@ -1042,10 +1049,10 @@ body {
     <div class="notice-footer" style="background:#fffbee;border-top:1.5px solid #d4b84a;padding:12px 20px;align-items:flex-start;gap:20px">
       <div style="flex:1;min-width:0">
         <div style="font-size:12px;font-weight:700;color:#7a5c00;margin-bottom:4px;display:flex;align-items:center;gap:6px">
-          <span>💾</span> <span data-i18n="notice_save_title" style="text-transform:uppercase;letter-spacing:0.3px">SAVE YOUR DATA — IMPORTANT</span>
+          <span>💾</span> <span data-i18n="notice_save_title" style="text-transform:uppercase;letter-spacing:0.3px">SAVE YOUR DATA - IMPORTANT</span>
         </div>
         <div style="font-size:12px;color:var(--text2);line-height:1.55" data-i18n="notice_save_text">
-Always export a JSON backup using <em style="color:var(--accent2);font-style:italic;font-weight:600">↓ Export → JSON Backup</em> after each session and save it in the JSON folder in your Local Security Pack, section <strong>&quot;Context and Risk Analysis&quot;</strong>. This file lets you restore all your answers at any time.
+After each session, create your backup file and store it in the dedicated folder of your Local Security Pack on SharePoint. This file lets you recover all your work at any time.
         </div>
       </div>
       <button class="btn-primary" onclick="closeNotice()" data-i18n="btn_start" style="flex-shrink:0;align-self:center">Start →</button>
@@ -1059,12 +1066,26 @@ Always export a JSON backup using <em style="color:var(--accent2);font-style:ita
      ============================================================ -->
 <div class="export-overlay hidden" id="exportOverlay">
   <div class="export-box">
-    <div class="export-header" data-i18n="export_header">Exporter / Importer</div>
+    <div class="export-header" data-i18n="export_header">Sauvegarder et exporter</div>
     <div style="background:#fff8e1;border-bottom:1px solid #ffe082;padding:10px 20px;font-size:12px;color:#7a5c00;display:flex;gap:8px;align-items:flex-start">
       <span style="flex-shrink:0">📁</span>
-      <span data-i18n="export_warning"><strong>Important :</strong> Sauvegardez toujours le fichier JSON dans le dossier dédié de votre Pack Sécurité sur SharePoint — pas uniquement en local sur votre ordinateur. Cela garantit que votre analyse reste accessible et partageable.</span>
+      <span data-i18n="export_warning"><strong>Important :</strong> rangez toujours votre fichier de sauvegarde dans le dossier dédié de votre Pack Sécurité sur SharePoint, pas uniquement sur cet ordinateur.</span>
     </div>
     <div class="export-body">
+      <div class="export-option" onclick="exportJSON()">
+        <div class="export-opt-icon">💾</div>
+        <div>
+          <div class="export-opt-label" data-i18n="export_json_label">Sauvegarder mon travail</div>
+          <div class="export-opt-desc" data-i18n="export_json_label_desc">Crée un fichier de sauvegarde (.json) avec toutes vos réponses</div>
+        </div>
+      </div>
+      <div class="export-option" onclick="importJSON()">
+        <div class="export-opt-icon">📂</div>
+        <div>
+          <div class="export-opt-label" data-i18n="import_json_label">Reprendre une sauvegarde</div>
+          <div class="export-opt-desc" data-i18n="import_json_label_desc">Ouvre un fichier de sauvegarde pour continuer le travail</div>
+        </div>
+      </div>
       <div class="export-option" onclick="exportExcel()">
         <div class="export-opt-icon">📗</div>
         <div>
@@ -1072,25 +1093,11 @@ Always export a JSON backup using <em style="color:var(--accent2);font-style:ita
           <div class="export-opt-desc" data-i18n="export_xls_desc">Fichier .xls avec mise en forme et couleurs — ouvrir dans Excel ou SharePoint</div>
         </div>
       </div>
-      <div class="export-option" onclick="exportJSON()">
-        <div class="export-opt-icon">💾</div>
-        <div>
-          <div class="export-opt-label" data-i18n="export_json_label">Sauvegarder en JSON</div>
-          <div class="export-opt-desc" data-i18n="export_json_label_desc">Sauvegarde complète — rechargeable sur n'importe quel poste</div>
-        </div>
-      </div>
       <div class="export-option" onclick="exportCSV()">
         <div class="export-opt-icon">📄</div>
         <div>
           <div class="export-opt-label" data-i18n="export_csv_label">Exporter en CSV</div>
           <div class="export-opt-desc" data-i18n="export_csv_label_desc">Tableau complet de l'analyse — ouvrir dans Excel ou SharePoint</div>
-        </div>
-      </div>
-      <div class="export-option" onclick="importJSON()">
-        <div class="export-opt-icon">📂</div>
-        <div>
-          <div class="export-opt-label" data-i18n="import_json_label">Charger une sauvegarde JSON</div>
-          <div class="export-opt-desc" data-i18n="import_json_label_desc">Reprendre un travail sauvegardé</div>
         </div>
       </div>
     </div>
@@ -1111,12 +1118,12 @@ Always export a JSON backup using <em style="color:var(--accent2);font-style:ita
       <p style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:14px" data-i18n="reset_text1">Vous êtes sur le point d'effacer toutes les données saisies dans ce formulaire, y compris les menaces, vulnérabilités, notations et plan d'action. <strong>Toutes les réponses, remarques et actions seront effacées.</strong> Cette action est irréversible.</p>
       <div style="display:flex;align-items:flex-start;gap:10px;background:#fff8e8;border:1px solid #e8c870;border-radius:6px;padding:12px;margin-bottom:16px">
         <span style="font-size:18px;flex-shrink:0;line-height:1.4">⚠️</span>
-        <span style="font-size:12px;color:#7a5500;line-height:1.5" data-i18n="reset_warn"><strong>Important :</strong> Les données stockées dans le navigateur peuvent être perdues si vous videz le cache ou changez d'appareil. <strong>Exportez une sauvegarde JSON avant de remettre à zéro.</strong></span>
+        <span style="font-size:12px;color:#7a5500;line-height:1.5" data-i18n="reset_warn"><strong>Important :</strong> tout ce qui n'a pas été sauvegardé sera perdu. Créez votre fichier de sauvegarde avant de remettre à zéro.</span>
       </div>
       <button onclick="exportJSON()" data-i18n="reset_export"
         style="width:100%;padding:10px;background:var(--accent-lt);border:1px solid var(--accent);border-radius:var(--r);font-family:var(--font);font-size:13px;font-weight:600;color:var(--accent2);cursor:pointer;transition:all 0.15s"
         onmouseover="this.style.background='var(--accent)';this.style.color='#fff'"
-        onmouseout="this.style.background='var(--accent-lt)';this.style.color='var(--accent2)'">⬇ Exporter le JSON d'abord</button>
+        onmouseout="this.style.background='var(--accent-lt)';this.style.color='var(--accent2)'">💾 Sauvegarder mon travail d'abord</button>
     </div>
     <div class="export-footer" style="display:flex;gap:8px;justify-content:flex-end">
       <button class="btn-secondary" onclick="document.getElementById('resetOverlay').classList.add('hidden')" data-i18n="reset_cancel">Annuler</button>
@@ -1570,7 +1577,7 @@ Always export a JSON backup using <em style="color:var(--accent2);font-style:ita
 const I18N = {
   fr: {
     app_title:'Analyse des risques', app_sub:'Sécurité & Sûreté — LWF',
-    btn_notice:'ℹ Rappel', btn_export:'⬇ Exporter / Importer', btn_start:'Commencer →',
+    btn_notice:'ℹ Rappel', btn_export:'💾 Sauvegarder / Exporter', btn_start:'Commencer →',
     btn_prev:'← Précédent', btn_next:'Étape suivante →', btn_close:'Fermer',
     btn_add_threat:'+ Ajouter une menace spécifique à votre contexte',
     btn_add_action:'+ Ajouter une action', btn_export_final:'↓ Exporter l\'analyse',
@@ -1586,7 +1593,7 @@ const I18N = {
     notice_time_1:'<strong>Phase 1 — Atelier de lancement (1h)</strong> — Organiser un atelier de lancement à l\'aide du PowerPoint <em>"FORM_Atelier d\'analyse de risque"</em> disponible dans la <a href="https://lutheranworld.sharepoint.com/:p:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/09.%20Training/Francais/TRAINING_Atelier_analyse_risque_v2.pptx?d=w09670e99f32642389ac8c280bad85ccc&csf=1&web=1&e=XuK33g" target="_blank" style="color:inherit;text-decoration:underline">boîte à outils en ligne</a>.',
     notice_time_2:'<strong>Phase 2 — Développement de la première version</strong> — Transmettre au Security Advisor les photos des résultats de l\'atelier (post-its, paperboards, exercices muraux) afin de permettre le développement d\'une première version du tableau d\'analyse de risques.',
     notice_time_3:'<strong>Phase 3 — Atelier de travail sur l\'outil (1h)</strong> — Organiser un deuxième atelier de groupe en utilisant (et projetant) le présent outil. Identifier 2 à 3 nouvelles menaces éventuelles et finaliser la partie relative aux mesures de réduction du risque.',
-    notice_time_4:'<strong>Phase 4 — Sauvegarde et validation</strong> — Exportez le fichier JSON → enregistrez dans votre Pack Sécurité Local, dossier Analyse de risque → partagez avec le Security Advisor pour validation.',
+    notice_time_4:'<strong>Phase 4 — Sauvegarde et validation</strong> — Créez votre fichier de sauvegarde (Sauvegarder mon travail) → enregistrez dans votre Pack Sécurité Local, dossier Analyse de risque → partagez avec le Security Advisor pour validation.',
     notice_time_5:'<strong>Phase 5 — Validation du plan d\'action (1h)</strong> — Organiser un dernier atelier avec les personnes concernées afin de valider le plan d\'action, identifier les délais, les responsables et, si nécessaire, les coûts associés.',
     notice_time_note:'Note : Les futures mises à jour pourront ensuite être réalisées directement à partir de la Phase 3.',
     notice_context_title:'Rappels importants',
@@ -1605,15 +1612,19 @@ const I18N = {
     notice_phase3_label:'Session de travail sur cet outil',
     notice_phase3_desc:'Deuxième session de groupe en utilisant cet outil (projeté). Identifiez 2 à 3 menaces supplémentaires et finalisez les mesures d\'atténuation.',
     notice_phase4_label:'Sauvegarde &amp; validation',
-    notice_phase4_desc:'Exportez le fichier JSON → enregistrez dans votre Pack Sécurité Local, dossier Analyse de risque → partagez avec le Security Advisor pour validation.',
+    notice_phase4_desc:'Créez votre fichier de sauvegarde (Sauvegarder mon travail) → enregistrez dans votre Pack Sécurité Local, dossier Analyse de risque → partagez avec le Security Advisor pour validation.',
     notice_phase5_label:'Validation du plan d\'action',
     notice_phase5_desc:'Session finale avec le personnel concerné — assignez les délais, responsables et coûts.',
-    notice_save_title:'SAUVEGARDEZ VOS DONNÉES — IMPORTANT',
-    notice_save_text:'Exportez toujours une sauvegarde JSON via <em style="color:var(--accent2);font-style:italic;font-weight:600">↓ Export → Sauvegarde JSON</em> après chaque session et enregistrez-la dans le dossier JSON de votre Pack Sécurité Local, section <strong>&quot;Contexte et analyse des risques&quot;</strong>. Ce fichier vous permet de restaurer toutes vos réponses à tout moment.',
+    notice_save_title:'SAUVEGARDEZ VOS DONNÉES - IMPORTANT',
+    notice_save_text:'Après chaque session, créez votre fichier de sauvegarde et rangez-le dans le dossier dédié de votre Pack Sécurité sur SharePoint. Ce fichier permet de retrouver tout votre travail à tout moment.',
+    notice_tuto_title:'💾 Où vont mes données ?',
+    notice_tuto_1:'Vos réponses s\'enregistrent automatiquement, mais <strong>uniquement dans ce navigateur, sur cet ordinateur</strong>.',
+    notice_tuto_2:'À la fin de chaque session, cliquez sur <strong>💾 Sauvegarder / Exporter</strong> puis <strong>Sauvegarder mon travail</strong> : l\'outil crée votre fichier de sauvegarde.',
+    notice_tuto_3:'Rangez ce fichier dans votre Pack Sécurité sur SharePoint. Pour reprendre plus tard ou sur un autre poste : <strong>Reprendre une sauvegarde</strong>.',
     export_title:'Exporter l\'analyse', export_csv:'Exporter en CSV', export_csv_desc:'Compatible Excel — tableau complet',
-    export_json:'Sauvegarde JSON', export_json_desc:'Pour recharger plus tard',
+    export_json:'Sauvegarder mon travail', export_json_desc:'Crée un fichier de sauvegarde (.json) avec toutes vos réponses',
     export_print:'Imprimer / PDF', export_print_desc:'Enregistrer en PDF via l\'impression',
-    import_json:'Charger une sauvegarde', import_json_desc:'Reprendre un travail sauvegardé',
+    import_json:'Reprendre une sauvegarde', import_json_desc:'Ouvre un fichier de sauvegarde pour continuer le travail',
     field_office:'Bureau / Programme', field_sfp:'Point focal sécurité', field_date:'Date',
     sidebar_steps:'Étapes',
     step0_label:'Étape 0', step0_title:'Informations sur le bureau',
@@ -1777,7 +1788,7 @@ const I18N = {
     lbl_measure_empty:'Aucune mesure renseignée — cliquez sur Modifier',
     step4_own:'Outil de pilotage : définissez des dates pour trier vos actions, mettez à jour les statuts, exportez pour partager et sauvegarder.',
     ap_more:'En savoir plus…', ap_less:'Réduire ↑',
-    step4_own_detail:'<ul style="margin:4px 0 0 16px;padding:0"><li><strong>Tri automatique par date</strong> — les actions les plus proches remontent en haut, quelle que soit leur priorité. Les actions sans date se classent en bas par priorité.</li><li style="margin-top:4px"><strong>Colonne État</strong> : suivez chaque action via le menu déroulant (En cours / Partiellement / Terminé / Suspendu) — les actions terminées sont automatiquement barrées.</li><li style="margin-top:4px"><strong>Exporter en Excel</strong> pour partager l\'avancement avec votre SMT.</li><li style="margin-top:4px"><strong>Sauvegarder en JSON</strong> après chaque mise à jour et conserver ce fichier dans votre Pack Sécurité local.</li></ul>',
+    step4_own_detail:'<ul style="margin:4px 0 0 16px;padding:0"><li><strong>Tri automatique par date</strong> — les actions les plus proches remontent en haut, quelle que soit leur priorité. Les actions sans date se classent en bas par priorité.</li><li style="margin-top:4px"><strong>Colonne État</strong> : suivez chaque action via le menu déroulant (En cours / Partiellement / Terminé / Suspendu) — les actions terminées sont automatiquement barrées.</li><li style="margin-top:4px"><strong>Exporter en Excel</strong> pour partager l\'avancement avec votre SMT.</li><li style="margin-top:4px"><strong>Sauvegarder mon travail</strong> après chaque mise à jour et conserver ce fichier dans votre Pack Sécurité local.</li></ul>',
     step5_implement:'Mettre en œuvre le plan d\'action',
     step5_implement_desc:'Assignez chaque action à un responsable, fixez des délais réalistes et assurez un suivi régulier.',
     btn_export_ap:'↓ Exporter le plan d\'action',
@@ -1792,21 +1803,21 @@ const I18N = {
         topbar_title:'Analyse des risques Sécurité &amp; Sûreté',
     btn_help:'❓ Aide',
     btn_reset:'🔄 Remise à zéro',
-    export_header:'Exporter / Importer',
-    export_warning:'<strong>Important :</strong> Sauvegardez toujours le fichier JSON dans le dossier dédié de votre Pack Sécurité sur SharePoint — pas uniquement en local sur votre ordinateur. Cela garantit que votre analyse reste accessible et partageable.',
+    export_header:'Sauvegarder et exporter',
+    export_warning:'<strong>Important :</strong> rangez toujours votre fichier de sauvegarde dans le dossier dédié de votre Pack Sécurité sur SharePoint, pas uniquement sur cet ordinateur.',
     export_xls_label:'Exporter le Plan d\'action en Excel',
     export_xls_desc:'Fichier .xls avec mise en forme et couleurs — ouvrir dans Excel ou SharePoint',
-    export_json_label:'Sauvegarder en JSON',
-    export_json_label_desc:'Sauvegarde complète — rechargeable sur n\'importe quel poste',
+    export_json_label:'Sauvegarder mon travail',
+    export_json_label_desc:'Crée un fichier de sauvegarde (.json) avec toutes vos réponses',
     export_csv_label:'Exporter en CSV',
     export_csv_label_desc:'Tableau complet de l\'analyse — ouvrir dans Excel ou SharePoint',
-    import_json_label:'Charger une sauvegarde JSON',
-    import_json_label_desc:'Reprendre un travail sauvegardé',
+    import_json_label:'Reprendre une sauvegarde',
+    import_json_label_desc:'Ouvre un fichier de sauvegarde pour continuer le travail',
     btn_close2:'Fermer',
     reset_header:'🔄 Remettre à zéro ?',
     reset_text1:'Vous êtes sur le point d\'effacer toutes les données saisies dans ce formulaire, y compris les menaces, vulnérabilités, notations et plan d\'action. <strong>Toutes les réponses, remarques et actions seront effacées.</strong> Cette action est irréversible.',
-    reset_warn:'<strong>Important :</strong> Les données stockées dans le navigateur peuvent être perdues si vous videz le cache ou changez d\'appareil. <strong>Exportez une sauvegarde JSON avant de remettre à zéro.</strong>',
-    reset_export:'⬇ Exporter le JSON d\'abord',
+    reset_warn:'<strong>Important :</strong> tout ce qui n\'a pas été sauvegardé sera perdu. Créez votre fichier de sauvegarde avant de remettre à zéro.',
+    reset_export:'💾 Sauvegarder mon travail d\'abord',
     reset_cancel:'Annuler',
     reset_confirm:'Oui, tout effacer',
     matrix_title:'Matrice des risques — positionnement des menaces',
@@ -1843,7 +1854,7 @@ const I18N = {
     notice_time_1:'<strong>Phase 1 — Launch workshop (1h)</strong> — Conduct a launch workshop using the PowerPoint <em>"TRAIN_Risk assessment workshop"</em> available in the <a href="https://lutheranworld.sharepoint.com/:p:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/09.%20Training/English/TRAINING_Risk_Analysis_v2.pptx?d=w6cb375ae2d7041918ecb911f3a8540b9&csf=1&web=1&e=HONlV9" target="_blank" style="color:inherit;text-decoration:underline">online toolkit</a>.',
     notice_time_2:'<strong>Phase 2 — First version development</strong> — Send the Security Advisor photos of the workshop outputs (post-its, flipcharts, wall exercises) to allow development of a first version of the risk assessment table.',
     notice_time_3:'<strong>Phase 3 — Working session on this tool (1h)</strong> — Conduct a second group session using (and projecting) this tool. Identify 2–3 additional threats if applicable and finalise the mitigation measures section.',
-        notice_time_4:'<strong>Phase 4 — Save &amp; validation</strong> — Export the JSON file → save in your Local Security Pack, Risk Assessment folder → share with the Security Advisor for validation.',    notice_time_5:'<strong>Phase 5 — Action plan validation (1h)</strong> — Hold a final session with relevant staff to validate the action plan, assign deadlines, responsible persons and, where applicable, associated costs.',
+        notice_time_4:'<strong>Phase 4 — Save &amp; validation</strong> — Create your backup file (Save my work) → save in your Local Security Pack, Risk Assessment folder → share with the Security Advisor for validation.',    notice_time_5:'<strong>Phase 5 — Action plan validation (1h)</strong> — Hold a final session with relevant staff to validate the action plan, assign deadlines, responsible persons and, where applicable, associated costs.',
     notice_time_note:'Note: Future updates can be carried out directly from Phase 3 onwards.',
     notice_context_title:'Key reminders',
     notice_ctx_1:'Risk assessment is linked to a specific geographical context — each office must do its own',
@@ -1861,7 +1872,7 @@ const I18N = {
     notice_phase3_label:'Working session on this tool',
     notice_phase3_desc:'Second group session using this tool (projected). Identify 2–3 additional threats and finalise mitigation measures.',
     notice_phase4_label:'Save &amp; validation',
-    notice_phase4_desc:'Export the JSON file → save in your Local Security Pack, Risk Assessment folder → share with the Security Advisor for validation.',
+    notice_phase4_desc:'Create your backup file (Save my work) → save in your Local Security Pack, Risk Assessment folder → share with the Security Advisor for validation.',
     notice_phase5_label:'Action plan validation',
     notice_phase5_desc:'Final session with relevant staff — assign deadlines, responsible persons and costs.',
     notice_save_title:'SAVE YOUR DATA — IMPORTANT',
@@ -2099,7 +2110,7 @@ const I18N = {
     notice_time_1:'<strong>Fase 1 — Taller de lanzamiento (1h)</strong> — Organizar un taller de lanzamiento utilizando el PowerPoint <em>"CAPA_Taller de evaluación de riesgos"</em> disponible en la <a href="https://lutheranworld.sharepoint.com/:p:/r/sites/SAFETYSECURITY/PublicDocuments/03.%20Toolkit%20and%20documents/09.%20Training/Espanol/TRAINING_Analisis_Riesgo_v2.pptx?d=w5e046d94be374141bc4e199e0b387d15&csf=1&web=1&e=UFGYak" target="_blank" style="color:inherit;text-decoration:underline">caja de herramientas en línea</a>.',
     notice_time_2:'<strong>Fase 2 — Desarrollo de la primera versión</strong> — Enviar al Security Advisor fotos de los resultados del taller (post-its, papelógrafos, ejercicios en pared) para permitir el desarrollo de una primera versión de la tabla de análisis de riesgos.',
     notice_time_3:'<strong>Fase 3 — Sesión de trabajo con esta herramienta (1h)</strong> — Organizar una segunda sesión de grupo utilizando (y proyectando) esta herramienta. Identificar 2 a 3 nuevas amenazas si corresponde y finalizar la sección de medidas de reducción del riesgo.',
-    notice_time_4:'<strong>Fase 4 — Guardar y validar</strong> — Exporte el archivo JSON → guárdelo en su Paquete de Seguridad Local, carpeta Análisis de riesgos → compártalo con el Security Advisor para validación.',    notice_time_5:'<strong>Fase 5 — Validación del plan de acción (1h)</strong> — Realizar una sesión final con las personas involucradas para validar el plan de acción, identificar plazos, responsables y, si es necesario, los costos asociados.',
+    notice_time_4:'<strong>Fase 4 — Guardar y validar</strong> — Cree su archivo de respaldo (Guardar mi trabajo) → guárdelo en su Paquete de Seguridad Local, carpeta Análisis de riesgos → compártalo con el Security Advisor para validación.',    notice_time_5:'<strong>Fase 5 — Validación del plan de acción (1h)</strong> — Realizar una sesión final con las personas involucradas para validar el plan de acción, identificar plazos, responsables y, si es necesario, los costos asociados.',
     notice_time_note:'Nota: Las futuras actualizaciones podrán realizarse directamente a partir de la Fase 3.',
     notice_context_title:'Recordatorios importantes',
     notice_ctx_1:'El análisis de riesgos está vinculado a un contexto geográfico preciso — cada oficina debe realizar el suyo',
@@ -2117,7 +2128,7 @@ const I18N = {
     notice_phase3_label:'Sesión de trabajo en esta herramienta',
     notice_phase3_desc:'Segunda sesión grupal usando esta herramienta (proyectada). Identifique 2–3 amenazas adicionales y finalice las medidas de mitigación.',
     notice_phase4_label:'Guardado &amp; validación',
-    notice_phase4_desc:'Exporte el archivo JSON → guárdelo en su Paquete de Seguridad Local, carpeta Análisis de riesgos → compártalo con el Security Advisor para validación.',    notice_phase5_label:'Validación del plan de acción',
+    notice_phase4_desc:'Cree su archivo de respaldo (Guardar mi trabajo) → guárdelo en su Paquete de Seguridad Local, carpeta Análisis de riesgos → compártalo con el Security Advisor para validación.',    notice_phase5_label:'Validación del plan de acción',
     notice_phase5_desc:'Sesión final con el personal pertinente — asigne plazos, responsables y costos.',
     notice_save_title:'GUARDE SUS DATOS — IMPORTANTE',
     notice_save_text:'Exporte siempre una copia de seguridad JSON usando <em style="color:var(--accent2);font-style:italic;font-weight:600">↓ Exportar → Copia de seguridad JSON</em> después de cada sesión y guárdela en la carpeta JSON de su Pack de Seguridad Local, sección <strong>&quot;Contexto y análisis de riesgos&quot;</strong>. Este archivo le permite restaurar todas sus respuestas en cualquier momento.',

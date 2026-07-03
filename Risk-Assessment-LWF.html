@@ -1426,9 +1426,9 @@ After each session, create your backup file and store it in the dedicated folder
             <table class="ap-table" style="min-width:900px;margin:0;table-layout:fixed" id="apHeaderTable">
               <colgroup>
                 <col style="width:36px">
-                <col><!-- Action — flex -->
+                <col><!-- Action — flex, équilibrée avec Commentaire -->
                 <col style="width:130px">
-                <col style="width:150px">
+                <col><!-- Commentaire — flex, équilibrée avec Action -->
                 <col style="width:120px">
                 <col style="width:110px">
                 <col style="width:80px">
@@ -1462,7 +1462,7 @@ After each session, create your backup file and store it in the dedicated folder
                 <col style="width:36px">
                 <col>
                 <col style="width:130px">
-                <col style="width:150px">
+                <col>
                 <col style="width:120px">
                 <col style="width:110px">
                 <col style="width:80px">
@@ -1509,7 +1509,6 @@ After each session, create your backup file and store it in the dedicated folder
                   <th data-i18n="col_prob">Probabilité</th>
                   <th data-i18n="col_impact">Impact</th>
                   <th data-i18n="col_risk">Niveau de risque</th>
-                  <th data-i18n="col_actions">Actions</th>
                   <th data-i18n="col_decision">Décision</th>
                 </tr>
               </thead>
@@ -3895,14 +3894,12 @@ function renderSummary() {
   `;
   document.getElementById('recapTableBody').innerHTML = sorted.map((th,i) => {
     const rl = th.prob*th.impact;
-    const ac = actions.filter(a => a.threat===th.name).length;
     return `<tr style="cursor:pointer" onclick="goToStep(2);setTimeout(()=>{const el=document.getElementById('vuln-card-${th.id}');if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}},150)" title="${t('recap_click_hint')||'Cliquer pour revenir à cette menace'}">
       <td style="text-align:center;font-size:11px;color:var(--text3)">${i+1}</td>
       <td style="font-weight:500;color:var(--accent2);text-decoration:underline;text-underline-offset:2px">${escHtml(th.name)}</td>
       <td style="text-align:center">${th.prob||'—'}</td>
       <td style="text-align:center">${th.impact||'—'}</td>
       <td style="text-align:center"><span class="risk-badge ${riskClass(rl)}">${rl||'—'}</span></td>
-      <td style="text-align:center">${ac}</td>
       <td style="text-align:center">${rl >= 15 ? (
         th.decision === 'assumed' ? '<span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--ok);color:#fff">✔ '+t('dec_btn_assumed_short')+'</span>'
         : th.decision === 'refused' ? '<span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--text);color:#fff">✘ '+t('dec_btn_refused_short')+'</span>'
@@ -4226,8 +4223,8 @@ function exportExcel() {
     return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
   });
 
-  const headers   = ['#',t('ap_action'),t('ap_threat'),t('ap_priority'),t('ap_date'),t('ap_days_col')||'Jours restants',t('ap_cost'),t('ap_status'),t('ap_responsible')];
-  const colWidths = ['30','300','140','120','90','80','70','90','180'];
+  const headers   = ['#',t('ap_action'),t('ap_threat'),t('ap_comment'),t('ap_priority'),t('ap_date'),t('ap_days_col')||'Jours restants',t('ap_cost'),t('ap_status'),t('ap_responsible')];
+  const colWidths = ['30','280','140','200','120','90','80','70','90','180'];
 
   let tableRows = '';
   sortedActions.forEach((a, i) => {
@@ -4255,6 +4252,7 @@ function exportExcel() {
       `<td style="${tdBase};background:${rowBg};text-align:center">${i+1}</td>`,
       `<td style="${tdBase};background:${rowBg}">${(a.action||'').replace(/</g,'&lt;')}</td>`,
       `<td style="${tdBase};background:${rowBg}">${(a.threat||'').replace(/</g,'&lt;')}</td>`,
+      `<td style="${tdBase};background:${rowBg}">${(a.comment||'').replace(/</g,'&lt;')}</td>`,
       `<td style="${tdStyle(prioStyle,prioLabel,rowBg)}">${prioLabel}</td>`,
       `<td style="${tdBase};background:${rowBg};text-align:center">${a.date||''}</td>`,
       `<td style="${daysStyle}">${daysVal}</td>`,

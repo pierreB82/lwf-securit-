@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <!--
   ================================================================
-  POST-INCIDENT DEBRIEFING v2.0 - LWF World Service
+  POST-INCIDENT DEBRIEFING v2.1 - LWF World Service
   Pierre Beaurenaut - Federation Lutherienne Mondiale (FLM/LWF)
   Base : LWF_Skeleton_Tool_v1.html / LWF_Master_Prompt_HTML_Tools_v2.md
+  V2.1 (2026-07-03) : vocabulaire sauvegarde non technique (aligné squelette V1.1), notice enrichie, modale export réordonnée.
   ================================================================
 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Pierre Beaurenaut">
 <title>LWF - Post-Incident Debriefing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -191,7 +193,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
     <button class="lang-btn" onclick="setLang('es')" title="Espanol"><span class="lang-flag">&#127466;&#127480;</span><span class="lang-abbr" style="display:none">ES</span></button>
   </div>
   <button class="btn-topbar reset" onclick="confirmReset()">&#8635; <span data-i18n="btn_reset">Reset</span></button>
-  <button class="btn-topbar" onclick="openExport()">&#8595; <span data-i18n="btn_export">Export</span></button>
+  <button class="btn-topbar" onclick="openExport()">&#128190; <span data-i18n="btn_export">Save / Export</span></button>
 </div>
 
 <!-- CONTENU -->
@@ -391,7 +393,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
     <div style="background:var(--accent);color:#fff;padding:14px 18px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-radius:var(--r) var(--r) 0 0">
       <div>
         <h2 style="font-size:15px;font-weight:700" data-i18n="topbar_title">Post-Incident Debriefing</h2>
-        <p style="font-size:11px;opacity:.8;margin-top:2px">LWF World Service V2.0</p>
+        <p style="font-size:11px;opacity:.8;margin-top:2px">LWF World Service V2.1</p>
       </div>
       <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
         <div class="lang-switcher">
@@ -411,11 +413,17 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
         <li data-i18n="notice_hot"><strong>Hot debrief (24-48h)</strong> - 5 questions, 30 min max.</li>
         <li data-i18n="notice_str"><strong>Structured debrief (1-2 weeks)</strong> - 5 questions, deeper analysis.</li>
       </ul>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:12px 14px;margin-top:14px">
+        <div data-i18n="notice_tuto_title" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">&#128190; Where does my data go?</div>
+        <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px"><span style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">1</span><span data-i18n="notice_tuto_1" style="font-size:12px;color:var(--text2);line-height:1.5"></span></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px"><span style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">2</span><span data-i18n="notice_tuto_2" style="font-size:12px;color:var(--text2);line-height:1.5"></span></div>
+        <div style="display:flex;gap:10px;align-items:flex-start"><span style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">3</span><span data-i18n="notice_tuto_3" style="font-size:12px;color:var(--text2);line-height:1.5"></span></div>
+      </div>
     </div>
     <div style="background:#fffbee;border-top:1.5px solid #d4b84a;padding:10px 18px;display:flex;align-items:center;gap:12px">
       <div style="flex:1">
-        <div style="font-size:12px;font-weight:700;color:#7a5c00;margin-bottom:2px">&#128190; <span data-i18n="notice_save_title">SAVE YOUR DATA</span></div>
-        <div style="font-size:12px;color:var(--text2)" data-i18n="notice_save_text">Export JSON backup after each session. Save in your SharePoint Security Pack folder.</div>
+        <div style="font-size:12px;font-weight:700;color:#7a5c00;margin-bottom:2px">&#128190; <span data-i18n="notice_save_title">SAVE YOUR DATA - IMPORTANT</span></div>
+        <div style="font-size:12px;color:var(--text2)" data-i18n="notice_save_text">After each session, create your backup file and store it in the dedicated folder of your Local Security Pack on SharePoint. This file lets you recover all your work at any time.</div>
       </div>
       <button class="btn-primary" onclick="closeNotice()" data-i18n="btn_start" style="flex-shrink:0">Start</button>
     </div>
@@ -425,13 +433,13 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 <!-- MODAL EXPORT -->
 <div class="overlay hidden" id="exportOverlay">
   <div class="modal-box" style="max-width:420px">
-    <div class="modal-header" data-i18n="export_header">Export / Import</div>
+    <div class="modal-header" data-i18n="export_header">Save and export</div>
     <div class="modal-body">
-      <div class="export-warn" data-i18n="export_warn"><strong>Important:</strong> always save JSON in your SharePoint Security Pack folder.</div>
+      <div class="export-warn" data-i18n="export_warn"><strong>Important:</strong> always store your backup file in the dedicated folder of your Security Pack on SharePoint, not only on this computer.</div>
+      <div class="export-opt" onclick="exportJSON()"><div class="eo-icon">&#128190;</div><div><div class="eo-label" data-i18n="json_lbl">Save my work</div><div class="eo-desc" data-i18n="json_desc">Creates a backup file (.json) with all your answers</div></div></div>
+      <div class="export-opt" onclick="triggerImport()"><div class="eo-icon">&#128194;</div><div><div class="eo-label" data-i18n="imp_lbl">Resume from a backup</div><div class="eo-desc" data-i18n="imp_desc">Opens a backup file to continue your work</div></div></div>
       <div class="export-opt" onclick="exportExcel()"><div class="eo-icon">&#128213;</div><div><div class="eo-label" data-i18n="xls_lbl">Export to Excel</div><div class="eo-desc" data-i18n="xls_desc">.xls with all responses</div></div></div>
-      <div class="export-opt" onclick="exportJSON()"><div class="eo-icon">&#128190;</div><div><div class="eo-label" data-i18n="json_lbl">Save as JSON</div><div class="eo-desc" data-i18n="json_desc">Full reloadable backup</div></div></div>
-<div class="export-opt" onclick="window.print()"><div class="eo-icon">&#128438;</div><div><div class="eo-label" data-i18n="print_lbl">Print / PDF</div><div class="eo-desc" data-i18n="print_desc">Printable version</div></div></div>
-      <div class="export-opt" onclick="triggerImport()"><div class="eo-icon">&#128194;</div><div><div class="eo-label" data-i18n="imp_lbl">Load JSON backup</div><div class="eo-desc" data-i18n="imp_desc">Resume saved work</div></div></div>
+      <div class="export-opt" onclick="window.print()"><div class="eo-icon">&#128438;</div><div><div class="eo-label" data-i18n="print_lbl">Print / PDF</div><div class="eo-desc" data-i18n="print_desc">Printable version</div></div></div>
     </div>
     <div class="modal-footer"><button class="btn-secondary" onclick="closeExport()" data-i18n="btn_close">Close</button></div>
   </div>
@@ -444,8 +452,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
     <div class="modal-header" data-i18n="reset_header">Reset everything?</div>
     <div class="modal-body">
       <p data-i18n="reset_text">You are about to erase all data. This is irreversible.</p>
-      <div class="export-warn" style="margin-top:12px" data-i18n="reset_warn"><strong>Important:</strong> export a JSON backup first.</div>
-      <button class="btn-secondary" style="width:100%;margin-top:6px" onclick="exportJSON()" data-i18n="reset_export">Export JSON first</button>
+      <div class="export-warn" style="margin-top:12px" data-i18n="reset_warn"><strong>Important:</strong> anything not saved will be lost. Create your backup file before resetting.</div>
+      <button class="btn-secondary" style="width:100%;margin-top:6px" onclick="exportJSON()" data-i18n="reset_export">&#128190; Save my work first</button>
     </div>
     <div class="modal-footer">
       <button class="btn-secondary" onclick="closeReset()" data-i18n="btn_cancel">Cancel</button>
@@ -466,7 +474,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
    ================================================================ */
 const TOOL_NAME         = 'LWF Post-Incident Debriefing';
 const TOOL_PREFIX       = 'PID';
-const TOOL_VERSION_BASE = '2.0';
+const TOOL_VERSION_BASE = '2.1';
 const LS_KEY            = 'lwf_pid_v2';
 const LS_LANG           = 'lwf_pid_lang';
 
@@ -484,7 +492,7 @@ let qRendered     = false;
 const I18N = {
   fr:{
     topbar_title:"Débriefing Post-Incident",
-    btn_help:"Aide", btn_reset:"Remise à zéro", btn_export:"Exporter",
+    btn_help:"Aide", btn_reset:"Remise à zéro", btn_export:"Sauvegarder / Exporter",
     saved_ind:"sauvegardé",
     eyebrow:"LWF World Service - Sécurité",
     panel_title:"Débriefing Post-Incident",
@@ -550,20 +558,24 @@ const I18N = {
     notice_modes_title:"Deux modes",
     notice_hot:"<strong>Débriefing immédiat (24-48h)</strong> - 5 questions, 30 minutes maximum.",
     notice_str:"<strong>Débriefing structuré (1-2 semaines)</strong> - 5 questions, analyse approfondie.",
-    notice_save_title:"SAUVEGARDEZ VOS DONNÉES",
-    notice_save_text:"Exportez une sauvegarde JSON après chaque session. Enregistrez dans votre dossier SharePoint Pack Sécurité.",
-    export_header:"Exporter / Importer",
-    export_warn:"<strong>Important :</strong> sauvegardez toujours le JSON dans votre dossier SharePoint Pack Sécurité.",
+    notice_save_title:"SAUVEGARDEZ VOS DONNÉES - IMPORTANT",
+    notice_save_text:"Après chaque session, créez votre fichier de sauvegarde et rangez-le dans le dossier dédié de votre Pack Sécurité sur SharePoint. Ce fichier permet de retrouver tout votre travail à tout moment.",
+    notice_tuto_title:"&#128190; Où vont mes données ?",
+    notice_tuto_1:"Vos réponses s'enregistrent automatiquement, mais <strong>uniquement dans ce navigateur, sur cet ordinateur</strong>.",
+    notice_tuto_2:"À la fin de chaque session, cliquez sur <strong>&#128190; Sauvegarder / Exporter</strong> puis <strong>Sauvegarder mon travail</strong> : l'outil crée votre fichier de sauvegarde.",
+    notice_tuto_3:"Rangez ce fichier dans votre Pack Sécurité sur SharePoint. Pour reprendre plus tard ou sur un autre poste : <strong>Reprendre une sauvegarde</strong>.",
+    export_header:"Sauvegarder et exporter",
+    export_warn:"<strong>Important :</strong> rangez toujours votre fichier de sauvegarde dans le dossier dédié de votre Pack Sécurité sur SharePoint, pas uniquement sur cet ordinateur.",
     xls_lbl:"Exporter en Excel", xls_desc:"Fichier .xls formaté",
-    json_lbl:"Sauvegarder en JSON", json_desc:"Sauvegarde complète rechargeable",
+    json_lbl:"Sauvegarder mon travail", json_desc:"Crée un fichier de sauvegarde (.json) avec toutes vos réponses",
     csv_lbl:"Exporter en CSV", csv_desc:"Tableau pour Excel",
     print_lbl:"Imprimer / PDF", print_desc:"Version imprimable",
-    imp_lbl:"Charger une sauvegarde JSON", imp_desc:"Reprendre un travail sauvegardé",
+    imp_lbl:"Reprendre une sauvegarde", imp_desc:"Ouvre un fichier de sauvegarde pour continuer le travail",
     btn_close:"Fermer", btn_cancel:"Annuler", btn_start:"Commencer",
     reset_header:"Remise à zéro ?",
     reset_text:"Toutes les données saisies seront effacées. Action irréversible.",
-    reset_warn:"<strong>Important :</strong> exportez une sauvegarde JSON avant de continuer.",
-    reset_export:"Exporter le JSON d'abord", reset_confirm:"Oui, tout effacer",
+    reset_warn:"<strong>Important :</strong> tout ce qui n'a pas été sauvegardé sera perdu. Créez votre fichier de sauvegarde avant de remettre à zéro.",
+    reset_export:"&#128190; Sauvegarder mon travail d'abord", reset_confirm:"Oui, tout effacer",
     emergency_msg:"Problème détecté. Cliquez pour réinitialiser.", emergency_btn:"Réinitialiser",
     alert_loaded:"Sauvegarde chargée avec succès !", alert_err:"Erreur : ",
     status_pending:"En attente", status_inprogress:"En cours",

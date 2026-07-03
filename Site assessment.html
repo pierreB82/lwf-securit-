@@ -3,11 +3,13 @@
   ================================================================
   Outil d'évaluation préliminaire des locaux
   Conçu par Pierre Beaurenaut pour la Fédération Luthérienne Mondiale (FLM / LWF)
-  Version 1.4 (Juillet 2026)
+  Version 1.5 (Juillet 2026)
   Basé sur le TOOL_BUIL_Building evaluation check-list V1.1
   v1.4 : type de bâtiment en sélection multiple (sites à usages combinés) +
          module conditionnel "Aléas naturels spécifiques" (Séisme, 12 questions,
          extensible à Cyclone/Volcan/Inondation majeure)
+  V1.5 (2026-07-03) : vocabulaire sauvegarde non technique (aligné squelette V1.1),
+         notice enrichie, modale export réordonnée.
   ================================================================
 -->
 <html lang="en">
@@ -743,11 +745,20 @@ input[type=file].hidden-input { display: none; }
         <div class="notice-reminder-item" data-i18n="notice_tip1">Use this tool on-site, moving through each area of the site.</div>
         <div class="notice-reminder-item" data-i18n="notice_tip2">Take photos when prompted. They are not mandatory but highly recommended.</div>
         <div class="notice-reminder-item" data-i18n="notice_tip3">Items marked NO or PARTIAL will automatically appear in the Action Plan tab.</div>
-        <div class="notice-reminder-item" data-i18n="notice_tip4">Export your evaluation as JSON to save it in the Security Pack on SharePoint.</div>
+        <div class="notice-reminder-item" data-i18n="notice_tip4">Create your backup file ("Save my work") and store it in the Security Pack on SharePoint.</div>
       </div>
       <div class="notice-save-block">
         <span>💾</span>
-        <div style="font-size:12px;color:var(--text2);line-height:1.55" data-i18n="notice_save_text">Data is saved automatically in your browser. <strong>Always export the JSON file</strong> and save it in the dedicated folder of your Security Pack on SharePoint.</div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px" data-i18n="notice_save_title">SAVE YOUR DATA - IMPORTANT</div>
+          <div style="font-size:12px;color:var(--text2);line-height:1.55" data-i18n="notice_save_text">After each session, create your backup file and store it in the dedicated folder of your Local Security Pack on SharePoint. This file lets you recover all your work at any time.</div>
+        </div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:12px 14px;margin-top:14px">
+        <div data-i18n="notice_tuto_title" style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">💾 Where does my data go?</div>
+        <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px"><span style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">1</span><span data-i18n="notice_tuto_1" style="font-size:12px;color:var(--text2);line-height:1.5">Your answers are saved automatically, but <strong>only in this browser, on this computer</strong>.</span></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px"><span style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">2</span><span data-i18n="notice_tuto_2" style="font-size:12px;color:var(--text2);line-height:1.5">At the end of each session, click <strong>💾 Save / Export</strong> then <strong>Save my work</strong>: the tool creates your backup file.</span></div>
+        <div style="display:flex;gap:10px;align-items:flex-start"><span style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">3</span><span data-i18n="notice_tuto_3" style="font-size:12px;color:var(--text2);line-height:1.5">Store this file in your Security Pack on SharePoint. To resume later or on another computer: <strong>Resume from a backup</strong>.</span></div>
       </div>
     </div>
     <div class="notice-footer">
@@ -775,7 +786,7 @@ input[type=file].hidden-input { display: none; }
     <option value="es">ES</option>
   </select>
   <button class="btn-topbar" onclick="confirmReset()" title="Reset" data-i18n-title="btn_reset">🔄</button>
-  <button class="btn-topbar" onclick="openExport()" title="Export / Import" data-i18n-title="btn_export">💾</button>
+  <button class="btn-topbar" onclick="openExport()" title="Save / Export" data-i18n-title="btn_export">💾</button>
 </div>
 
 <!-- ============================================================
@@ -783,9 +794,23 @@ input[type=file].hidden-input { display: none; }
      ============================================================ -->
 <div class="export-overlay hidden" id="exportOverlay">
   <div class="export-box">
-    <div class="export-header" data-i18n="export_header">Export / Import</div>
+    <div class="export-header" data-i18n="export_header">Save and export</div>
     <div class="export-body">
-      <div class="export-warning" data-i18n="export_warning"><strong>Important:</strong> Always save the JSON file in the dedicated folder of your Security Pack on SharePoint, not only on your local device.</div>
+      <div class="export-warning" data-i18n="export_warning"><strong>Important:</strong> always store your backup file in the dedicated folder of your Security Pack on SharePoint, not only on this computer.</div>
+      <div class="export-option" onclick="exportJSON()">
+        <div class="export-opt-icon">💾</div>
+        <div>
+          <div class="export-opt-label" data-i18n="export_json_label">Save my work</div>
+          <div class="export-opt-desc" data-i18n="export_json_desc">Creates a backup file (.json) with all your answers</div>
+        </div>
+      </div>
+      <div class="export-option" onclick="triggerImport()">
+        <div class="export-opt-icon">📂</div>
+        <div>
+          <div class="export-opt-label" data-i18n="import_json_label">Resume from a backup</div>
+          <div class="export-opt-desc" data-i18n="import_json_desc">Opens a backup file to continue your work</div>
+        </div>
+      </div>
       <div class="export-option" id="shareOption" onclick="shareJSON()" style="display:none">
         <div class="export-opt-icon">📤</div>
         <div>
@@ -793,25 +818,11 @@ input[type=file].hidden-input { display: none; }
           <div class="export-opt-desc" data-i18n="export_share_desc">Recommended on phone / tablet</div>
         </div>
       </div>
-      <div class="export-option" onclick="exportJSON()">
-        <div class="export-opt-icon">💾</div>
-        <div>
-          <div class="export-opt-label" data-i18n="export_json_label">Save as JSON</div>
-          <div class="export-opt-desc" data-i18n="export_json_desc">Full backup, reloadable on any device</div>
-        </div>
-      </div>
       <div class="export-option" onclick="printTool()">
         <div class="export-opt-icon">🖨</div>
         <div>
           <div class="export-opt-label" data-i18n="export_print_label">Print / PDF</div>
           <div class="export-opt-desc" data-i18n="export_print_desc">Via browser</div>
-        </div>
-      </div>
-      <div class="export-option" onclick="triggerImport()">
-        <div class="export-opt-icon">📂</div>
-        <div>
-          <div class="export-opt-label" data-i18n="import_json_label">Load a JSON backup</div>
-          <div class="export-opt-desc" data-i18n="import_json_desc">Resume a saved session</div>
         </div>
       </div>
     </div>
@@ -830,11 +841,11 @@ input[type=file].hidden-input { display: none; }
     <div class="export-body">
       <p style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:14px" data-i18n="reset_text">You are about to erase all data entered in this form. <strong>All responses, comments and actions will be deleted.</strong> This action cannot be undone.</p>
       <div style="background:#fffbea;border:1px solid #e8c98a;border-radius:var(--r2);padding:10px 12px;margin-bottom:14px">
-        <span style="font-size:12px;color:#7a5500;line-height:1.5" data-i18n="reset_warn"><strong>Important:</strong> Browser data can be lost if you clear your cache. <strong>Export a JSON backup before resetting.</strong></span>
+        <span style="font-size:12px;color:#7a5500;line-height:1.5" data-i18n="reset_warn"><strong>Important:</strong> anything not saved will be lost. Create your backup file before resetting.</span>
       </div>
       <div style="display:flex;gap:8px;justify-content:flex-end">
         <button class="btn-secondary" onclick="closeReset()" data-i18n="reset_cancel">Cancel</button>
-        <button class="btn-secondary" onclick="exportJSON()" data-i18n="reset_export" style="color:var(--accent2)">💾 Export first</button>
+        <button class="btn-secondary" onclick="exportJSON()" data-i18n="reset_export" style="color:var(--accent2)">💾 Save my work first</button>
         <button class="btn-primary" style="background:var(--danger)" onclick="doReset()" data-i18n="reset_confirm">Yes, erase all</button>
       </div>
     </div>
@@ -886,7 +897,7 @@ input[type=file].hidden-input { display: none; }
 /* ================================================================
    TOOL CONFIG
    ================================================================ */
-const TOOL_VERSION_BASE = '1.4';
+const TOOL_VERSION_BASE = '1.5';
 const TOOL_VERSION = 'v' + TOOL_VERSION_BASE;
 const LS_KEY = 'lwf_buil_v1';
 let lang = 'en';
@@ -905,20 +916,25 @@ const I18N = {
     notice_tip1: 'Open this tool on your phone or tablet before entering the site, and keep it in hand as you move through each area.',
     notice_tip2: 'Take photos when prompted. They are not mandatory but highly recommended.',
     notice_tip3: 'Items marked NO or PARTIAL will automatically appear in the Action Plan tab.',
-    notice_tip4: 'Export your evaluation as JSON to save it in the Security Pack on SharePoint.',
-    notice_save_text: 'Data is saved automatically in your browser. <strong>Always export the JSON file</strong> and save it in the dedicated folder of your Security Pack on SharePoint.',
+    notice_tip4: 'Create your backup file ("Save my work") and store it in the Security Pack on SharePoint.',
+    notice_save_title: 'SAVE YOUR DATA - IMPORTANT',
+    notice_save_text: 'After each session, create your backup file and store it in the dedicated folder of your Local Security Pack on SharePoint. This file lets you recover all your work at any time.',
+    notice_tuto_title: '💾 Where does my data go?',
+    notice_tuto_1: 'Your answers are saved automatically, but <strong>only in this browser, on this computer</strong>.',
+    notice_tuto_2: 'At the end of each session, click <strong>💾 Save / Export</strong> then <strong>Save my work</strong>: the tool creates your backup file.',
+    notice_tuto_3: 'Store this file in your Security Pack on SharePoint. To resume later or on another computer: <strong>Resume from a backup</strong>.',
     btn_start: 'Start →',
     btn_close: 'Close',
-    export_header: 'Export / Import',
-    export_warning: '<strong>Important:</strong> Always save the JSON file in the dedicated folder of your Security Pack on SharePoint, not only on your local device.',
+    export_header: 'Save and export',
+    export_warning: '<strong>Important:</strong> always store your backup file in the dedicated folder of your Security Pack on SharePoint, not only on this computer.',
     export_share_label: 'Share (email, Teams, WhatsApp…)', export_share_desc: 'Recommended on phone / tablet',
-    export_json_label: 'Save as JSON', export_json_desc: 'Full backup, reloadable on any device',
+    export_json_label: 'Save my work', export_json_desc: 'Creates a backup file (.json) with all your answers',
     export_print_label: 'Print / PDF', export_print_desc: 'Via browser',
-    import_json_label: 'Load a JSON backup', import_json_desc: 'Resume a saved session',
+    import_json_label: 'Resume from a backup', import_json_desc: 'Opens a backup file to continue your work',
     reset_header: '🔄 Reset?',
     reset_text: 'You are about to erase all data entered in this form. <strong>All responses, comments and actions will be deleted.</strong> This action cannot be undone.',
-    reset_warn: '<strong>Important:</strong> Browser data can be lost if you clear your cache. <strong>Export a JSON backup before resetting.</strong>',
-    reset_cancel: 'Cancel', reset_export: '💾 Export first', reset_confirm: 'Yes, erase all',
+    reset_warn: '<strong>Important:</strong> anything not saved will be lost. Create your backup file before resetting.',
+    reset_cancel: 'Cancel', reset_export: '💾 Save my work first', reset_confirm: 'Yes, erase all',
     emergency_msg: '⚠ A problem was detected. Click the button to reset the tool.',
     emergency_btn: 'Reset',
     tab_info: 'Info', tab_check: 'Checklist', tab_actions: 'Actions', tab_summary: 'Summary',
@@ -933,7 +949,7 @@ const I18N = {
     sum_legend_good: '75–100%: Satisfactory',
     sum_legend_mod: '50–74%: To reinforce',
     sum_legend_weak: '0–49%: Weak, priority',
-    btn_help: '❓ Help', btn_reset: '🔄 Reset', btn_export: '⬇ Export / Import',
+    btn_help: '❓ Help', btn_reset: '🔄 Reset', btn_export: '💾 Save / Export',
     export_prefix: 'Site_Assessment',
     // Step 0
     card_general: 'General Information',
@@ -1011,20 +1027,25 @@ const I18N = {
     notice_tip1: 'Ouvrez cet outil sur votre téléphone ou tablette avant d&#39;entrer sur le site, gardez-le en main pendant toute la visite.',
     notice_tip2: 'Prenez des photos lorsque c&#39;est suggéré. Elles ne sont pas obligatoires mais fortement recommandées.',
     notice_tip3: 'Les items marqués NON ou PARTIEL apparaîtront automatiquement dans l&#39;onglet Plan d&#39;action.',
-    notice_tip4: 'Exportez votre évaluation en JSON pour la sauvegarder dans le Security Pack sur SharePoint.',
-    notice_save_text: 'Les données sont sauvegardées automatiquement dans votre navigateur. <strong>Exportez toujours le fichier JSON</strong> et sauvegardez-le dans le dossier dédié de votre Pack Sécurité sur SharePoint.',
+    notice_tip4: 'Créez votre fichier de sauvegarde (« Sauvegarder mon travail ») et rangez-le dans le Security Pack sur SharePoint.',
+    notice_save_title: 'SAUVEGARDEZ VOS DONNÉES - IMPORTANT',
+    notice_save_text: 'Après chaque session, créez votre fichier de sauvegarde et rangez-le dans le dossier dédié de votre Pack Sécurité sur SharePoint. Ce fichier permet de retrouver tout votre travail à tout moment.',
+    notice_tuto_title: '💾 Où vont mes données ?',
+    notice_tuto_1: 'Vos réponses s&#39;enregistrent automatiquement, mais <strong>uniquement dans ce navigateur, sur cet ordinateur</strong>.',
+    notice_tuto_2: 'À la fin de chaque session, cliquez sur <strong>💾 Sauvegarder / Exporter</strong> puis <strong>Sauvegarder mon travail</strong> : l&#39;outil crée votre fichier de sauvegarde.',
+    notice_tuto_3: 'Rangez ce fichier dans votre Pack Sécurité sur SharePoint. Pour reprendre plus tard ou sur un autre poste : <strong>Reprendre une sauvegarde</strong>.',
     btn_start: 'Commencer →',
     btn_close: 'Fermer',
-    export_header: 'Exporter / Importer',
-    export_warning: '<strong>Important :</strong> Sauvegardez toujours le fichier JSON dans le dossier dédié de votre Pack Sécurité sur SharePoint, pas uniquement en local.',
+    export_header: 'Sauvegarder et exporter',
+    export_warning: '<strong>Important :</strong> rangez toujours votre fichier de sauvegarde dans le dossier dédié de votre Pack Sécurité sur SharePoint, pas uniquement sur cet ordinateur.',
     export_share_label: 'Partager (email, Teams, WhatsApp…)', export_share_desc: 'Recommandé sur téléphone / tablette',
-    export_json_label: 'Sauvegarder en JSON', export_json_desc: 'Sauvegarde complète, rechargeable sur n&#39;importe quel poste',
+    export_json_label: 'Sauvegarder mon travail', export_json_desc: 'Crée un fichier de sauvegarde (.json) avec toutes vos réponses',
     export_print_label: 'Imprimer / PDF', export_print_desc: 'Via le navigateur',
-    import_json_label: 'Charger une sauvegarde JSON', import_json_desc: 'Reprendre un travail sauvegardé',
+    import_json_label: 'Reprendre une sauvegarde', import_json_desc: 'Ouvre un fichier de sauvegarde pour continuer le travail',
     reset_header: '🔄 Remettre à zéro ?',
     reset_text: 'Vous êtes sur le point d&#39;effacer toutes les données saisies. <strong>Toutes les réponses, commentaires et actions seront effacés.</strong> Cette action est irréversible.',
-    reset_warn: '<strong>Important :</strong> Les données du navigateur peuvent être perdues si vous videz le cache. <strong>Exportez une sauvegarde JSON avant de remettre à zéro.</strong>',
-    reset_cancel: 'Annuler', reset_export: '💾 Exporter d&#39;abord', reset_confirm: 'Oui, tout effacer',
+    reset_warn: '<strong>Important :</strong> tout ce qui n&#39;a pas été sauvegardé sera perdu. Créez votre fichier de sauvegarde avant de remettre à zéro.',
+    reset_cancel: 'Annuler', reset_export: '💾 Sauvegarder mon travail d&#39;abord', reset_confirm: 'Oui, tout effacer',
     emergency_msg: '⚠ Un problème a été détecté. Cliquez sur le bouton pour réinitialiser l&#39;outil.',
     emergency_btn: 'Réinitialiser',
     tab_info: 'Infos', tab_check: 'Checklist', tab_actions: 'Actions', tab_summary: 'Synthèse',
@@ -1039,7 +1060,7 @@ const I18N = {
     sum_legend_good: '75–100% : Satisfaisant',
     sum_legend_mod: '50–74% : À renforcer',
     sum_legend_weak: '0–49% : Faible, prioritaire',
-    btn_help: '❓ Aide', btn_reset: '🔄 Remise à zéro', btn_export: '⬇ Exporter / Importer',
+    btn_help: '❓ Aide', btn_reset: '🔄 Remise à zéro', btn_export: '💾 Sauvegarder / Exporter',
     export_prefix: 'Évaluation_site',
     card_general: 'Informations générales',
     field_country: 'Pays', ph_country: 'ex. Kenya',
@@ -1113,20 +1134,25 @@ const I18N = {
     notice_tip1: 'Abra esta herramienta en su teléfono o tableta antes de entrar al sitio, manténgala en mano durante todo el recorrido.',
     notice_tip2: 'Tome fotos cuando se sugiera. No son obligatorias pero muy recomendadas.',
     notice_tip3: 'Los ítems marcados NO o PARCIAL aparecerán automáticamente en la pestaña Plan de acción.',
-    notice_tip4: 'Exporte su evaluación en JSON para guardarla en el Security Pack en SharePoint.',
-    notice_save_text: 'Los datos se guardan automáticamente en su navegador. <strong>Exporte siempre el archivo JSON</strong> y guárdelo en la carpeta dedicada de su Pack de Seguridad en SharePoint.',
+    notice_tip4: 'Cree su archivo de respaldo ("Guardar mi trabajo") y guárdelo en el Security Pack en SharePoint.',
+    notice_save_title: 'GUARDE SUS DATOS - IMPORTANTE',
+    notice_save_text: 'Después de cada sesión, cree su archivo de respaldo y guárdelo en la carpeta dedicada de su Paquete de Seguridad local en SharePoint. Este archivo permite recuperar todo su trabajo en cualquier momento.',
+    notice_tuto_title: '💾 ¿Dónde van mis datos?',
+    notice_tuto_1: 'Sus respuestas se guardan automáticamente, pero <strong>solo en este navegador, en esta computadora</strong>.',
+    notice_tuto_2: 'Al final de cada sesión, haga clic en <strong>💾 Guardar / Exportar</strong> y luego <strong>Guardar mi trabajo</strong>: la herramienta crea su archivo de respaldo.',
+    notice_tuto_3: 'Guarde este archivo en su Paquete de Seguridad en SharePoint. Para retomar más tarde o en otra computadora: <strong>Retomar desde un respaldo</strong>.',
     btn_start: 'Comenzar →',
     btn_close: 'Cerrar',
-    export_header: 'Exportar / Importar',
-    export_warning: '<strong>Importante:</strong> Guarde siempre el archivo JSON en la carpeta dedicada de su Pack de Seguridad en SharePoint, no solo en su dispositivo local.',
+    export_header: 'Guardar y exportar',
+    export_warning: '<strong>Importante:</strong> guarde siempre su archivo de respaldo en la carpeta dedicada de su Paquete de Seguridad en SharePoint, no solo en esta computadora.',
     export_share_label: 'Compartir (email, Teams, WhatsApp…)', export_share_desc: 'Recomendado en teléfono / tableta',
-    export_json_label: 'Guardar en JSON', export_json_desc: 'Copia de seguridad completa, recargable en cualquier dispositivo',
+    export_json_label: 'Guardar mi trabajo', export_json_desc: 'Crea un archivo de respaldo (.json) con todas sus respuestas',
     export_print_label: 'Imprimir / PDF', export_print_desc: 'A través del navegador',
-    import_json_label: 'Cargar una copia JSON', import_json_desc: 'Reanudar una sesión guardada',
+    import_json_label: 'Retomar desde un respaldo', import_json_desc: 'Abre un archivo de respaldo para continuar el trabajo',
     reset_header: '🔄 ¿Reiniciar?',
     reset_text: 'Está a punto de borrar todos los datos introducidos. <strong>Todas las respuestas, comentarios y acciones serán eliminados.</strong> Esta acción es irreversible.',
-    reset_warn: '<strong>Importante:</strong> Los datos del navegador pueden perderse si borra la caché. <strong>Exporte una copia JSON antes de reiniciar.</strong>',
-    reset_cancel: 'Cancelar', reset_export: '💾 Exportar primero', reset_confirm: 'Sí, borrar todo',
+    reset_warn: '<strong>Importante:</strong> todo lo que no haya sido guardado se perderá. Cree su archivo de respaldo antes de reiniciar.',
+    reset_cancel: 'Cancelar', reset_export: '💾 Guardar mi trabajo primero', reset_confirm: 'Sí, borrar todo',
     emergency_msg: '⚠ Se detectó un problema. Haga clic en el botón para reiniciar la herramienta.',
     emergency_btn: 'Reiniciar',
     tab_info: 'Info', tab_check: 'Lista', tab_actions: 'Acciones', tab_summary: 'Síntesis',
@@ -1141,7 +1167,7 @@ const I18N = {
     sum_legend_good: '75–100% : Satisfactorio',
     sum_legend_mod: '50–74% : A reforzar',
     sum_legend_weak: '0–49% : Débil, prioritario',
-    btn_help: '❓ Ayuda', btn_reset: '🔄 Reiniciar', btn_export: '⬇ Exportar / Importar',
+    btn_help: '❓ Ayuda', btn_reset: '🔄 Reiniciar', btn_export: '💾 Guardar / Exportar',
     export_prefix: 'Evaluacion_sitio',
     card_general: 'Información general',
     field_country: 'País', ph_country: 'ej. Kenya',
